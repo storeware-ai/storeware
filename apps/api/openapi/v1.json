@@ -63,6 +63,10 @@
     {
       "name": "App automations",
       "description": "Triggers your app fires into a shop\u2019s automations, and the menu they are built from."
+    },
+    {
+      "name": "App Store",
+      "description": "The public App Store, open to anyone with no token."
     }
   ],
   "paths": {
@@ -15971,6 +15975,640 @@
           }
         }
       }
+    },
+    "/api/v1/public/apps": {
+      "get": {
+        "operationId": "listPublicApps",
+        "summary": "Search the public App Store",
+        "description": "Public apps only, with no token. `best`, the default, ranks by a Bayesian rating score and then by active installs; nothing in the order is paid for.",
+        "tags": ["App Store"],
+        "x-storeware-scopes": [],
+        "security": [],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Words to search names, taglines, tags and descriptions.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "marketing",
+                "sales",
+                "customer-service",
+                "shipping",
+                "inventory",
+                "store-design",
+                "analytics",
+                "finance",
+                "productivity",
+                "wholesale",
+                "ai-and-agents",
+                "developer-tools"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["best", "relevance", "popular", "newest", "name"]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "apps": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/PublicAppCard"
+                          }
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": ["apps", "total"]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error. See the `type` for which.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/apps/categories": {
+      "get": {
+        "operationId": "listPublicAppCategories",
+        "summary": "Count the public apps in each category",
+        "tags": ["App Store"],
+        "x-storeware-scopes": [],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "marketing",
+                              "sales",
+                              "customer-service",
+                              "shipping",
+                              "inventory",
+                              "store-design",
+                              "analytics",
+                              "finance",
+                              "productivity",
+                              "wholesale",
+                              "ai-and-agents",
+                              "developer-tools"
+                            ]
+                          },
+                          "apps": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": ["category", "apps"]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error. See the `type` for which.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/apps/collections": {
+      "get": {
+        "operationId": "listPublicAppCollections",
+        "summary": "List the App Store\u2019s collections",
+        "description": "Collections people at Storeware put together, each with its public apps in order. No app can pay to be in one.",
+        "tags": ["App Store"],
+        "x-storeware-scopes": [],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": ["string", "null"]
+                          },
+                          "apps": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/PublicAppCard"
+                            }
+                          }
+                        },
+                        "required": ["slug", "title", "description", "apps"]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error. See the `type` for which.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/apps/{slug}": {
+      "get": {
+        "operationId": "getPublicApp",
+        "summary": "Get a public app\u2019s listing",
+        "description": "What the listing shows, its price in `currency` (US dollars when left out), what its ratings add up to and the newest ten.",
+        "tags": ["App Store"],
+        "x-storeware-scopes": [],
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "The slug.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "description": "A billing currency, such as `usd` or `eur`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "tagline": {
+                          "type": ["string", "null"]
+                        },
+                        "iconUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "developerName": {
+                          "type": "string"
+                        },
+                        "primaryCategory": {
+                          "type": ["string", "null"]
+                        },
+                        "categories": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "activeInstalls": {
+                          "type": "integer",
+                          "description": "Merchant shops with the app installed now."
+                        },
+                        "listedAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "rating": {
+                          "type": "object",
+                          "properties": {
+                            "average": {
+                              "description": "Average stars to one decimal, or null with none.",
+                              "type": ["number", "null"]
+                            },
+                            "count": {
+                              "type": "integer",
+                              "description": "Published ratings from shops still open."
+                            }
+                          },
+                          "required": ["average", "count"]
+                        },
+                        "builtForStoreware": {
+                          "type": "boolean",
+                          "description": "Holds the Built for Storeware badge, earned on published criteria and never sold."
+                        },
+                        "descriptionHtml": {
+                          "type": ["string", "null"]
+                        },
+                        "screenshots": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string"
+                              },
+                              "alt": {
+                                "type": ["string", "null"]
+                              },
+                              "width": {
+                                "type": "integer"
+                              },
+                              "height": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": ["url", "alt", "width", "height"],
+                            "additionalProperties": {}
+                          }
+                        },
+                        "videoUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "languages": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "homepageUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "supportUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "privacyUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "termsUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "docsUrl": {
+                          "type": ["string", "null"]
+                        },
+                        "unlisted": {
+                          "type": "boolean"
+                        },
+                        "pricing": {
+                          "type": "object",
+                          "properties": {
+                            "free": {
+                              "type": "boolean"
+                            },
+                            "from": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "amountMinor": {
+                                      "type": "integer"
+                                    },
+                                    "currency": {
+                                      "type": "string"
+                                    },
+                                    "interval": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": ["amountMinor", "currency", "interval"]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "trialDays": {
+                              "type": "integer"
+                            },
+                            "plans": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "amountMinor": {
+                                    "type": "integer"
+                                  },
+                                  "currency": {
+                                    "type": "string"
+                                  },
+                                  "interval": {
+                                    "type": "string"
+                                  },
+                                  "trialDays": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "name",
+                                  "amountMinor",
+                                  "currency",
+                                  "interval",
+                                  "trialDays"
+                                ],
+                                "additionalProperties": {}
+                              }
+                            }
+                          },
+                          "required": ["free", "from", "trialDays", "plans"]
+                        },
+                        "ratings": {
+                          "type": "object",
+                          "properties": {
+                            "summary": {
+                              "type": "object",
+                              "properties": {
+                                "average": {
+                                  "type": ["number", "null"]
+                                },
+                                "count": {
+                                  "type": "integer"
+                                },
+                                "distribution": {
+                                  "minItems": 5,
+                                  "maxItems": 5,
+                                  "type": "array",
+                                  "items": {
+                                    "type": "integer"
+                                  },
+                                  "description": "How many ratings gave 5, 4, 3, 2 and 1 stars, in that order."
+                                }
+                              },
+                              "required": ["average", "count", "distribution"]
+                            },
+                            "recent": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/PublicAppRating"
+                              }
+                            }
+                          },
+                          "required": ["summary", "recent"]
+                        }
+                      },
+                      "required": [
+                        "slug",
+                        "name",
+                        "tagline",
+                        "iconUrl",
+                        "developerName",
+                        "primaryCategory",
+                        "categories",
+                        "activeInstalls",
+                        "listedAt",
+                        "rating",
+                        "builtForStoreware",
+                        "descriptionHtml",
+                        "screenshots",
+                        "videoUrl",
+                        "tags",
+                        "languages",
+                        "homepageUrl",
+                        "supportUrl",
+                        "privacyUrl",
+                        "termsUrl",
+                        "docsUrl",
+                        "unlisted",
+                        "pricing",
+                        "ratings"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error. See the `type` for which.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/apps/{slug}/ratings": {
+      "get": {
+        "operationId": "listPublicAppRatings",
+        "summary": "List a public app\u2019s ratings",
+        "description": "Newest first. Only ratings that count: published, from merchant shops that had the app at least three days and are still open.",
+        "tags": ["App Store"],
+        "x-storeware-scopes": [],
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "The slug.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summary": {
+                          "type": "object",
+                          "properties": {
+                            "average": {
+                              "type": ["number", "null"]
+                            },
+                            "count": {
+                              "type": "integer"
+                            },
+                            "distribution": {
+                              "minItems": 5,
+                              "maxItems": 5,
+                              "type": "array",
+                              "items": {
+                                "type": "integer"
+                              },
+                              "description": "How many ratings gave 5, 4, 3, 2 and 1 stars, in that order."
+                            }
+                          },
+                          "required": ["average", "count", "distribution"]
+                        },
+                        "ratings": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/PublicAppRating"
+                          }
+                        }
+                      },
+                      "required": ["summary", "ratings"]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error. See the `type` for which.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -19516,6 +20154,144 @@
           }
         },
         "required": ["units", "revenue", "currency"]
+      },
+      "PublicAppCard": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tagline": {
+            "type": ["string", "null"]
+          },
+          "iconUrl": {
+            "type": ["string", "null"]
+          },
+          "developerName": {
+            "type": "string"
+          },
+          "primaryCategory": {
+            "type": ["string", "null"]
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "activeInstalls": {
+            "type": "integer",
+            "description": "Merchant shops with the app installed now."
+          },
+          "listedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rating": {
+            "type": "object",
+            "properties": {
+              "average": {
+                "description": "Average stars to one decimal, or null with none.",
+                "type": ["number", "null"]
+              },
+              "count": {
+                "type": "integer",
+                "description": "Published ratings from shops still open."
+              }
+            },
+            "required": ["average", "count"]
+          },
+          "builtForStoreware": {
+            "type": "boolean",
+            "description": "Holds the Built for Storeware badge, earned on published criteria and never sold."
+          }
+        },
+        "required": [
+          "slug",
+          "name",
+          "tagline",
+          "iconUrl",
+          "developerName",
+          "primaryCategory",
+          "categories",
+          "activeInstalls",
+          "listedAt",
+          "rating",
+          "builtForStoreware"
+        ]
+      },
+      "PublicAppRating": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "stars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "title": {
+            "type": ["string", "null"]
+          },
+          "body": {
+            "type": ["string", "null"]
+          },
+          "shopName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "editedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reply": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "required": ["body", "createdAt", "updatedAt"]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The developer\u2019s one public reply, or null."
+          }
+        },
+        "required": ["id", "stars", "title", "body", "shopName", "createdAt", "editedAt", "reply"]
       },
       "Return": {
         "type": "object",

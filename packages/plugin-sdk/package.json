@@ -1,6 +1,6 @@
 {
   "name": "@storeware/plugin-sdk",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Build plugins for Storeware. Verify webhooks, call the API, stay in scope.",
   "license": "MIT",
   "homepage": "https://storeware.ai/docs",

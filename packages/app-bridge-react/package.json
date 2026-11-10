@@ -1,6 +1,6 @@
 {
   "name": "@storeware/app-bridge-react",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "React hooks for App Bridge: toasts, the title bar, the save bar, modals and pickers in the Storeware admin.",
   "license": "MIT",
   "homepage": "https://storeware.ai/docs",

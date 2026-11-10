@@ -1,6 +1,6 @@
 {
   "name": "@storeware/app-ui",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "React components for pages the Storeware admin frames, styled only by the admin's 13 --sw-* variables.",
   "license": "MIT",
   "homepage": "https://storeware.ai/docs",

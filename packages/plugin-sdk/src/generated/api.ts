@@ -83,6 +83,8 @@ import type {
   GetProductFiguresResponse,
   GetProductResponse,
   GetProductSalesResponse,
+  GetPublicAppQuery,
+  GetPublicAppResponse,
   GetShippingLabelStartResponse,
   GetVariantExtrasResponse,
   GetVariantStockResponse,
@@ -126,6 +128,12 @@ import type {
   ListProductTranslationsResponse,
   ListProductsQuery,
   ListProductsResponse,
+  ListPublicAppCategoriesResponse,
+  ListPublicAppCollectionsResponse,
+  ListPublicAppRatingsQuery,
+  ListPublicAppRatingsResponse,
+  ListPublicAppsQuery,
+  ListPublicAppsResponse,
   ListShippingClassesResponse,
   ListShippingLabelsResponse,
   ListStockMovementsQuery,
@@ -2249,6 +2257,56 @@ export interface ApiClient {
    * `GET /api/v1/stores/{storeId}/automations/vocabulary`, with `automations:read`.
    */
   getAutomationVocabulary(input: { storeId: string }): Promise<GetAutomationVocabularyResponse>;
+
+  /**
+   * Search the public App Store.
+   *
+   * Public apps only, with no token. `best`, the default, ranks by a Bayesian rating
+   * score and then by active installs; nothing in the order is paid for.
+   *
+   * `GET /api/v1/public/apps`.
+   */
+  listPublicApps(input?: { query?: ListPublicAppsQuery }): Promise<ListPublicAppsResponse>;
+
+  /**
+   * Count the public apps in each category.
+   *
+   * `GET /api/v1/public/apps/categories`.
+   */
+  listPublicAppCategories(): Promise<ListPublicAppCategoriesResponse>;
+
+  /**
+   * List the App Store’s collections.
+   *
+   * Collections people at Storeware put together, each with its public apps in
+   * order. No app can pay to be in one.
+   *
+   * `GET /api/v1/public/apps/collections`.
+   */
+  listPublicAppCollections(): Promise<ListPublicAppCollectionsResponse>;
+
+  /**
+   * Get a public app’s listing.
+   *
+   * What the listing shows, its price in `currency` (US dollars when left out), what
+   * its ratings add up to and the newest ten.
+   *
+   * `GET /api/v1/public/apps/{slug}`.
+   */
+  getPublicApp(input: { slug: string; query?: GetPublicAppQuery }): Promise<GetPublicAppResponse>;
+
+  /**
+   * List a public app’s ratings.
+   *
+   * Newest first. Only ratings that count: published, from merchant shops that had
+   * the app at least three days and are still open.
+   *
+   * `GET /api/v1/public/apps/{slug}/ratings`.
+   */
+  listPublicAppRatings(input: {
+    slug: string;
+    query?: ListPublicAppRatingsQuery;
+  }): Promise<ListPublicAppRatingsResponse>;
 }
 
 type Route = (typeof operations)[OperationId];
@@ -2452,5 +2510,10 @@ export function createApiClient(transport: ApiTransport): ApiClient {
     uploadAppAsset: call('uploadAppAsset'),
     fireAppTrigger: call('fireAppTrigger'),
     getAutomationVocabulary: call('getAutomationVocabulary'),
+    listPublicApps: call('listPublicApps'),
+    listPublicAppCategories: call('listPublicAppCategories'),
+    listPublicAppCollections: call('listPublicAppCollections'),
+    getPublicApp: call('getPublicApp'),
+    listPublicAppRatings: call('listPublicAppRatings'),
   };
 }

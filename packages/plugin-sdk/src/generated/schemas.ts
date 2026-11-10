@@ -981,6 +981,46 @@ export interface ProductSales {
   currency: string | null;
 }
 
+export interface PublicAppCard {
+  slug: string;
+  name: string;
+  tagline: string | null;
+  iconUrl: string | null;
+  developerName: string;
+  primaryCategory: string | null;
+  categories: string[];
+  /** Merchant shops with the app installed now. */
+  activeInstalls: number;
+  listedAt: string | null;
+  rating: {
+    /** Average stars to one decimal, or null with none. */
+    average: number | null;
+    /** Published ratings from shops still open. */
+    count: number;
+  };
+  /**
+   * Holds the Built for Storeware badge, earned on published criteria and never
+   * sold.
+   */
+  builtForStoreware: boolean;
+}
+
+export interface PublicAppRating {
+  id: string;
+  stars: number;
+  title: string | null;
+  body: string | null;
+  shopName: string;
+  createdAt: string;
+  editedAt: string | null;
+  /** The developer’s one public reply, or null. */
+  reply: {
+    body: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+}
+
 export interface Return {
   request: {
     id: string;

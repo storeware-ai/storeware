@@ -356,7 +356,7 @@ export function packageTemplate(slug: string, template: TemplateName = 'node'): 
   const spec = SPECS[template];
   const versions = storewareVersions();
   const storeware = Object.fromEntries(
-    spec.storeware.map((name) => [name, `^${versions[name] ?? '1.0.0-beta.0'}`]),
+    spec.storeware.map((name) => [name, `^${versions[name] ?? '1.0.0'}`]),
   );
   const sorted = (deps: Record<string, string>) =>
     Object.fromEntries(Object.entries(deps).sort(([a], [b]) => a.localeCompare(b)));
@@ -371,7 +371,7 @@ export function packageTemplate(slug: string, template: TemplateName = 'node'): 
       // The CLI too, so `npx @storeware/cli` in this folder runs the version the
       // app was made with, and never a package of that name from anybody else.
       devDependencies: sorted({
-        '@storeware/cli': `^${versions['@storeware/cli'] ?? '1.0.0-beta.0'}`,
+        '@storeware/cli': `^${versions['@storeware/cli'] ?? '1.0.0'}`,
         ...spec.devDependencies,
       }),
     },

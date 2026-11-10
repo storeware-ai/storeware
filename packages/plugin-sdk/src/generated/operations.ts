@@ -30,6 +30,8 @@ import type {
   ProductMedia,
   ProductRow,
   ProductSales,
+  PublicAppCard,
+  PublicAppRating,
   Return,
   ShippingClass,
   ShippingClassRow,
@@ -2933,6 +2935,160 @@ export interface GetAutomationVocabularyResponse {
   };
 }
 
+/** The query `listPublicApps` takes. */
+export interface ListPublicAppsQuery {
+  /** Words to search names, taglines, tags and descriptions. */
+  q?: string;
+  category?:
+    | 'marketing'
+    | 'sales'
+    | 'customer-service'
+    | 'shipping'
+    | 'inventory'
+    | 'store-design'
+    | 'analytics'
+    | 'finance'
+    | 'productivity'
+    | 'wholesale'
+    | 'ai-and-agents'
+    | 'developer-tools';
+  sort?: 'best' | 'relevance' | 'popular' | 'newest' | 'name';
+  limit?: number;
+  offset?: number;
+}
+
+/** What `listPublicApps` answers with. */
+export interface ListPublicAppsResponse {
+  data: {
+    apps: PublicAppCard[];
+    total: number;
+  };
+}
+
+/** What `listPublicAppCategories` answers with. */
+export interface ListPublicAppCategoriesResponse {
+  data: {
+    category:
+      | 'marketing'
+      | 'sales'
+      | 'customer-service'
+      | 'shipping'
+      | 'inventory'
+      | 'store-design'
+      | 'analytics'
+      | 'finance'
+      | 'productivity'
+      | 'wholesale'
+      | 'ai-and-agents'
+      | 'developer-tools';
+    apps: number;
+  }[];
+}
+
+/** What `listPublicAppCollections` answers with. */
+export interface ListPublicAppCollectionsResponse {
+  data: {
+    slug: string;
+    title: string;
+    description: string | null;
+    apps: PublicAppCard[];
+  }[];
+}
+
+/** The query `getPublicApp` takes. */
+export interface GetPublicAppQuery {
+  /** A billing currency, such as `usd` or `eur`. */
+  currency?: string;
+}
+
+/** What `getPublicApp` answers with. */
+export interface GetPublicAppResponse {
+  data: {
+    slug: string;
+    name: string;
+    tagline: string | null;
+    iconUrl: string | null;
+    developerName: string;
+    primaryCategory: string | null;
+    categories: string[];
+    /** Merchant shops with the app installed now. */
+    activeInstalls: number;
+    listedAt: string | null;
+    rating: {
+      /** Average stars to one decimal, or null with none. */
+      average: number | null;
+      /** Published ratings from shops still open. */
+      count: number;
+    };
+    /**
+     * Holds the Built for Storeware badge, earned on published criteria and never
+     * sold.
+     */
+    builtForStoreware: boolean;
+    descriptionHtml: string | null;
+    screenshots: {
+      url: string;
+      alt: string | null;
+      width: number;
+      height: number;
+    } & Record<string, unknown>[];
+    videoUrl: string | null;
+    tags: string[];
+    languages: string[];
+    homepageUrl: string | null;
+    supportUrl: string | null;
+    privacyUrl: string | null;
+    termsUrl: string | null;
+    docsUrl: string | null;
+    unlisted: boolean;
+    pricing: {
+      free: boolean;
+      from: {
+        amountMinor: number;
+        currency: string;
+        interval: string;
+      } | null;
+      trialDays: number;
+      plans: {
+        key: string;
+        name: string;
+        amountMinor: number;
+        currency: string;
+        interval: string;
+        trialDays: number;
+      } & Record<string, unknown>[];
+    };
+    ratings: {
+      summary: {
+        average: number | null;
+        count: number;
+        /** How many ratings gave 5, 4, 3, 2 and 1 stars, in that order. */
+        distribution: number[];
+      };
+      recent: PublicAppRating[];
+    };
+  };
+}
+
+/** The query `listPublicAppRatings` takes. */
+export interface ListPublicAppRatingsQuery {
+  limit?: number;
+  offset?: number;
+}
+
+/** What `listPublicAppRatings` answers with. */
+export interface ListPublicAppRatingsResponse {
+  data: {
+    summary: {
+      average: number | null;
+      count: number;
+      /** How many ratings gave 5, 4, 3, 2 and 1 stars, in that order. */
+      distribution: number[];
+    };
+    ratings: PublicAppRating[];
+  };
+}
+
 /**
  * Every operation of the public API: its method, its path with `{name}` for
  * each path parameter, and the scopes an app needs to call it.
@@ -3612,6 +3768,11 @@ export const operations = {
     path: '/api/v1/stores/{storeId}/automations/vocabulary',
     scopes: ['automations:read'],
   },
+  listPublicApps: { method: 'GET', path: '/api/v1/public/apps', scopes: [] },
+  listPublicAppCategories: { method: 'GET', path: '/api/v1/public/apps/categories', scopes: [] },
+  listPublicAppCollections: { method: 'GET', path: '/api/v1/public/apps/collections', scopes: [] },
+  getPublicApp: { method: 'GET', path: '/api/v1/public/apps/{slug}', scopes: [] },
+  listPublicAppRatings: { method: 'GET', path: '/api/v1/public/apps/{slug}/ratings', scopes: [] },
 } as const;
 
 export type OperationId = keyof typeof operations;
