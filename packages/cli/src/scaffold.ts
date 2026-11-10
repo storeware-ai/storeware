@@ -287,6 +287,17 @@ url = "${url}/privacy"
 # description = "Returns a short plain-language summary of a product."
 # url = "${url}/mcp/describe-product"
 # scopes = ["products:read"]
+
+# Uncomment to give the merchant's own assistant in the admin a tool. It is
+# called the same way. Leave out read_only for a tool that changes things: it
+# then runs only after the merchant says the assistant may.
+#
+# [[assistant.tools]]
+# name = "summarise_reviews"
+# description = "Summarises what shoppers say about a product in its reviews."
+# url = "${url}/assistant/summarise-reviews"
+# scopes = ["products:read"]
+# read_only = true
 `;
 }
 

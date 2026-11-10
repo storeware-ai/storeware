@@ -12130,6 +12130,14 @@
                               "discountCode": {
                                 "type": ["string", "null"]
                               },
+                              "appDiscounts": {
+                                "anyOf": [
+                                  {},
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
                               "tags": {
                                 "type": "array",
                                 "items": {
@@ -12272,6 +12280,7 @@
                               "taxTransactionId",
                               "discountId",
                               "discountCode",
+                              "appDiscounts",
                               "tags",
                               "heldAt",
                               "heldBy",
@@ -17766,6 +17775,14 @@
           "discountCode": {
             "type": ["string", "null"]
           },
+          "appDiscounts": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ]
+          },
           "tags": {
             "type": "array",
             "items": {
@@ -17908,6 +17925,7 @@
           "taxTransactionId",
           "discountId",
           "discountCode",
+          "appDiscounts",
           "tags",
           "heldAt",
           "heldBy",

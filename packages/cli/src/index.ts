@@ -9,6 +9,7 @@ import {
   validateScopes,
 } from '@storeware/plugin-sdk/manifest';
 import { hostname } from 'node:os';
+import { FUNCTION_KINDS, type FunctionKind } from '@storeware/plugin-sdk/functions';
 import { spawn } from 'node:child_process';
 import {
   ApiError,
@@ -17,6 +18,7 @@ import {
   createTestOrder,
   fetchMe,
   fetchEvents,
+  fetchFunctionInputs,
   fetchRuntimeLogs,
   fetchScopes,
   listAppRequests,
@@ -45,11 +47,25 @@ import {
   NotAuthenticatedError,
   type Credentials,
 } from './config';
-import { DevError, runDev } from './dev';
+import { DevError, rememberedStoreId, runDev } from './dev';
+import {
+  chooseDevStore,
+  cpuNote,
+  failed,
+  findFunction,
+  FunctionError,
+  functionRunner,
+  inputProblems,
+  isFunctionKind,
+  sampleInput,
+  summarise,
+  type RunResult,
+} from './functions';
 import { LoginError, pollForTokens, startDeviceLogin } from './oauth';
 import { THEME_COMMANDS, ThemeError } from './theme';
 import { isTemplate, safeName, scaffold, storewareVersions, TEMPLATES } from './scaffold';
 import { serveMcp } from './mcp';
+import { ImportError, reportLines, runImportShopify } from './import-shopify';
 import { CloudflaredError } from './cloudflared';
 import {
   bundleHostedApp,
@@ -234,6 +250,7 @@ async function validate(): Promise<void> {
   out(`  events        ${manifest.webhooks?.events.join(' ') ?? 'none'}`);
   out(`  extensions    ${manifest.extensions?.admin?.length ?? 0} admin`);
   out(`  mcp tools     ${manifest.mcp?.tools?.length ?? 0}`);
+  out(`  assistant     ${manifest.assistant?.tools?.length ?? 0}`);
   if (manifest.runtime) {
     out(
       `  hosted at     ${hostedAppOrigin(manifest.app.slug)} (beta), from ${manifest.runtime.main}`,
@@ -725,6 +742,164 @@ async function appSubmit(): Promise<void> {
   out(`  Follow it at ${creds.adminUrl.replace(/\/$/, '')}/developer/${slug}/review`);
 }
 
+/** `function sample <kind>`: an input to start from, valid for that kind. */
+async function functionSample(): Promise<void> {
+  const kind = positional(0);
+  if (!isFunctionKind(kind)) {
+    throw new FunctionError(
+      `${kind ? `No kind called ${kind}.` : 'Name a kind.'} Choose one of: ${FUNCTION_KINDS.join(', ')}.`,
+    );
+  }
+  json(sampleInput(kind));
+}
+
+/**
+ * The function a command names, and its app's code bundled the way
+ * `app deploy` bundles it. Read from the manifest, so the kind is the one the
+ * merchant would approve, not one typed here.
+ */
+async function localFunction(): Promise<{
+  slug: string;
+  kind: FunctionKind;
+  handle: string;
+  bundle: Uint8Array;
+}> {
+  const handle = positional(0);
+  if (!handle) throw new FunctionError(usageLine(found!.command.id));
+  const manifest = parseManifest(await readManifest());
+  const fn = findFunction(manifest, handle);
+  // `[[functions]]` without `[runtime]` is refused by parseManifest above.
+  const { bytes } = await bundleHostedApp(dirname(manifestPath()), manifest.runtime!.main);
+  return { slug: manifest.app.slug, kind: fn.kind, handle, bundle: bytes };
+}
+
+/** One run as a person reads it: the answer, then what is wrong with it, then the timing. */
+function describeRun(handle: string, kind: FunctionKind, result: RunResult): void {
+  for (const line of result.logs) err(`  ${line}`);
+  if (result.output !== undefined) json(result.output);
+  if (result.outcome === 'ok') {
+    const took = result.wallMs < 1 ? 'under 1 ms' : `${result.wallMs} ms`;
+    out(`\n${handle} (${kind}): ${summarise(kind, result)}, in ${took}.`);
+  } else if (result.outcome === 'invalid') {
+    err(`\nStoreware would not use this answer, so checkout would carry on without it:`);
+    for (const problem of result.problems ?? []) err(`  ${problem}`);
+  } else if (result.outcome === 'threw') {
+    err(`\n${handle} threw, so checkout would carry on without it:\n${result.error ?? ''}`);
+  } else {
+    err(`\n${result.error ?? ''} Checkout would carry on without it.`);
+  }
+  const cpu = cpuNote(result);
+  if (cpu) (result.overCpu ? err : out)(`  ${cpu}`);
+}
+
+/** `function run <handle>`: one input, from a file or the kind's sample. */
+async function functionRun(): Promise<void> {
+  const { kind, handle, bundle } = await localFunction();
+  const file = flag('input');
+  let input: unknown = sampleInput(kind);
+  if (file) {
+    const path = resolve(workingDirectory(), file);
+    const text = await readFile(path, 'utf8').catch(() => {
+      throw new FunctionError(`No file at ${path}.`);
+    });
+    try {
+      input = JSON.parse(text);
+    } catch {
+      throw new FunctionError(`${file} is not JSON.`);
+    }
+    const problems = inputProblems(kind, input);
+    if (problems.length > 0) {
+      throw new FunctionError(
+        `${file} is not an input a ${kind} function is handed:\n  ${problems.join('\n  ')}\nRun storeware function sample ${kind} for one that is.`,
+      );
+    }
+  }
+
+  const runner = functionRunner(bundle);
+  try {
+    const result = await runner.run(handle, kind, input);
+    if (has('json')) json({ handle, kind, ...result });
+    else describeRun(handle, kind, result);
+    if (failed(result)) process.exitCode = 1;
+  } finally {
+    await runner.close();
+  }
+}
+
+/** `function replay <handle>`: the baskets a development store priced, through the local code. */
+async function functionReplay(): Promise<void> {
+  const limitText = flag('limit') ?? '20';
+  const limit = Number(limitText);
+  if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+    throw new FunctionError(`--limit is a whole number from 1 to 50, and ${limitText} is not.`);
+  }
+  const { slug, kind, handle, bundle } = await localFunction();
+  const creds = await credentials();
+  const store = chooseDevStore(
+    await listDevelopmentStores(creds),
+    flag('store'),
+    await rememberedStoreId(dirname(manifestPath())),
+  );
+  const replayed = await fetchFunctionInputs(creds, store.id, { app: slug, handle, limit });
+  if (replayed.kind !== kind) {
+    // The release on the store declares this handle as another kind. Running
+    // the local code on inputs of the wrong shape would only mislead.
+    throw new FunctionError(
+      `On ${store.handle}, ${handle} is a ${replayed.kind} function, and here it is a ${kind} one. Deploy this version to the store, then replay.`,
+    );
+  }
+
+  const runner = functionRunner(bundle);
+  const results: (RunResult & { sessionId: string; at: string })[] = [];
+  try {
+    if (!has('json')) {
+      out(
+        replayed.inputs.length === 0
+          ? `No baskets on ${store.handle} reached ${handle} yet. Add something to a basket there, then replay.`
+          : `Running ${handle} on ${replayed.inputs.length} basket(s) from ${store.handle}, newest first.\n`,
+      );
+    }
+    for (const basket of replayed.inputs) {
+      const result = await runner.run(handle, kind, basket.input);
+      results.push({ sessionId: basket.sessionId, at: basket.at, ...result });
+      if (!has('json')) {
+        const time = basket.at.slice(0, 16).replace('T', ' ');
+        out(
+          `  ${time}  ${basket.sessionId}  ${result.outcome.padEnd(7)}  ${summarise(kind, result)}`,
+        );
+      }
+    }
+  } finally {
+    await runner.close();
+  }
+
+  if (has('json')) return json({ store: store.handle, handle, kind, results });
+  const bad = results.filter(failed).length;
+  if (results.length > 0) {
+    out(
+      bad === 0
+        ? '\nEvery basket got an answer Storeware would use.'
+        : `\n${bad} of ${results.length} basket(s) would have gone on without ${handle}. Add --json to see each answer and what is wrong with it.`,
+    );
+  }
+  const slow = results.filter((r) => r.overCpu).length;
+  if (slow > 0) out(`  ${slow} used more CPU here than Storeware allows.`);
+  if (bad > 0) process.exitCode = 1;
+}
+
+/** `app import-shopify`: shopify.app.toml in, storeware.app.toml out, and what did not come across. */
+async function appImportShopify(): Promise<void> {
+  const { out: written, result } = await runImportShopify({
+    cwd: workingDirectory(),
+    ...(flag('from') ? { from: flag('from')! } : {}),
+    ...(flag('out') ? { out: flag('out')! } : {}),
+    ...(flag('plans') ? { plans: flag('plans')! } : {}),
+    force: has('force'),
+  });
+  const near = relative(workingDirectory(), written);
+  for (const line of reportLines(result, near.startsWith('..') ? written : near)) out(line);
+}
+
 async function mcp(): Promise<void> {
   await serveMcp(storewareVersions()['@storeware/cli'] ?? '0.0.0', workingDirectory());
 }
@@ -745,6 +920,7 @@ export const HANDLERS = {
   init,
   validate,
   mcp,
+  'app.import-shopify': appImportShopify,
   'app.dev': appDev,
   'app.preflight': appPreflight,
   'app.submit': appSubmit,
@@ -753,6 +929,9 @@ export const HANDLERS = {
   'app.rollback': appRollback,
   'app.logs': appLogs,
   'webhook.trigger': webhookTrigger,
+  'function.sample': functionSample,
+  'function.run': functionRun,
+  'function.replay': functionReplay,
   'store.list': storeList,
   'store.create': storeCreate,
   'store.seed': storeSeed,
@@ -818,7 +997,9 @@ main().catch((error: unknown) => {
     error instanceof LoginError ||
     error instanceof DevError ||
     error instanceof CloudflaredError ||
-    error instanceof HostingError
+    error instanceof HostingError ||
+    error instanceof FunctionError ||
+    error instanceof ImportError
   ) {
     err(error.message);
   } else if (error instanceof ApiError) {

@@ -148,6 +148,15 @@ export const MANIFEST_DESCRIPTIONS: Readonly<Record<string, string>> = {
     'Hosts your code may call besides Storeware’s API, such as api.example.com. Nothing else is reachable.',
   'runtime.bundle': 'The bundle’s SHA-256, written by `storeware app deploy`. Do not edit it.',
 
+  functions:
+    'Checkout functions: pure code Storeware runs whenever a basket is priced, for shoppers and AI agents alike.',
+  'functions[].kind': 'discount, delivery_rates, payment_methods or cart_validation.',
+  'functions[].handle': 'The name it is exported under, in `export const functions = { handle }`.',
+  'functions[].name': 'What a merchant sees, such as Volume discount.',
+  'functions[].description': 'One sentence for the merchant on what it changes.',
+  'functions[].metafields':
+    'Fields this app keeps that the function is handed: product.<key>, variant.<key> or customer.<key>.',
+
   knowledge:
     'What your app knows about products, merged into search and every AI agent’s view of the catalogue.',
   'knowledge.url': 'Where Storeware asks your app about a product.',
@@ -174,6 +183,16 @@ export const MANIFEST_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'mcp.tools[].url': 'Where Storeware calls the tool.',
   'mcp.tools[].scopes': 'Scopes the tool uses.',
   'mcp.tools[].input_schema': 'The tool’s arguments, as JSON Schema.',
+
+  assistant: 'Tools your app gives the merchant’s own assistant in the admin.',
+  'assistant.tools': 'Up to 20 tools.',
+  'assistant.tools[].name': 'The tool’s name, in lower_snake_case.',
+  'assistant.tools[].description': 'What the tool does, for the model choosing it.',
+  'assistant.tools[].url': 'Where Storeware calls the tool.',
+  'assistant.tools[].scopes': 'Scopes the tool uses.',
+  'assistant.tools[].input_schema': 'The tool’s arguments, as JSON Schema.',
+  'assistant.tools[].read_only':
+    'True when the tool changes nothing. Otherwise it runs only after the merchant says the assistant may change things.',
 };
 
 type JsonSchemaNode = {

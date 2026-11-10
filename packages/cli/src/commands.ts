@@ -110,6 +110,12 @@ const SHOP = {
   description: 'Which shop, by handle or id, when the organisation has more than one.',
 } as const;
 
+const FUNCTION_HANDLE = {
+  name: 'handle',
+  required: true,
+  description: 'The function, by the handle it has under `[[functions]]` in the manifest.',
+} as const;
+
 const THEME_FILE = {
   name: 'file',
   required: false,
@@ -125,6 +131,7 @@ const DEVELOPMENT_STORES = {
   path: '/get-started/development-stores',
 } as const;
 const THEMES = { title: 'Themes', path: '/themes' } as const;
+const FUNCTIONS = { title: 'Checkout functions', path: '/build-apps/checkout-functions' } as const;
 
 export const COMMANDS = [
   {
@@ -240,6 +247,44 @@ export const COMMANDS = [
     flags: [],
     examples: ['validate', 'validate apps/size-guide/storeware.app.toml'],
     guide: { title: 'The manifest', path: '/build-apps/manifest' },
+  },
+  {
+    id: 'app.import-shopify',
+    path: ['app', 'import-shopify'],
+    group: 'Building an app',
+    summary:
+      "Write a storeware.app.toml from a Shopify app's shopify.app.toml, and list what has no equivalent.",
+    args: [],
+    flags: [
+      {
+        name: 'from',
+        value: '<file>',
+        description:
+          'The Shopify file to read. `shopify.app.toml` in this directory when not given. Extensions in the `extensions` folder beside it are read too.',
+      },
+      {
+        name: 'out',
+        value: '<file>',
+        description:
+          'Where to write the manifest. `storeware.app.toml` beside the Shopify file when not given.',
+      },
+      {
+        name: 'force',
+        description: 'Replace a manifest that is already there.',
+      },
+      {
+        name: 'plans',
+        value: '<file>',
+        description:
+          'A JSON file of plans, each with a name, an amount in US dollars, an interval of `EVERY_30_DAYS` or `ANNUAL`, and trial days. Shopify keeps pricing in its Partner Dashboard, not in the file.',
+      },
+    ],
+    examples: [
+      'app import-shopify',
+      'app import-shopify --from ../my-shopify-app/shopify.app.toml --out storeware.app.toml',
+      'app import-shopify --plans plans.json --force',
+    ],
+    guide: { title: 'Coming from Shopify', path: '/get-started/coming-from-shopify' },
   },
   {
     id: 'app.dev',
@@ -410,6 +455,65 @@ export const COMMANDS = [
     ],
     examples: ['webhook trigger order.paid.v1'],
     guide: { title: 'Webhooks', path: '/webhooks' },
+  },
+  {
+    id: 'function.sample',
+    path: ['function', 'sample'],
+    group: 'Building an app',
+    summary: 'Print a sample input for a kind of checkout function, as JSON.',
+    args: [
+      {
+        name: 'kind',
+        required: true,
+        description:
+          'The kind: `discount`, `delivery_rates`, `payment_methods` or `cart_validation`.',
+      },
+    ],
+    flags: [],
+    examples: ['function sample discount', 'function sample cart_validation'],
+    guide: FUNCTIONS,
+  },
+  {
+    id: 'function.run',
+    path: ['function', 'run'],
+    group: 'Building an app',
+    summary:
+      'Run one of your checkout functions on this machine, with no network, and check its answer.',
+    args: [FUNCTION_HANDLE, MANIFEST],
+    flags: [
+      {
+        name: 'input',
+        value: '<file>',
+        description: 'A JSON file to hand it. A sample for its kind when not given.',
+      },
+      json('the answer, the time it took and any problems'),
+    ],
+    examples: ['function run volume_discount', 'function run volume_discount --input basket.json'],
+    guide: FUNCTIONS,
+  },
+  {
+    id: 'function.replay',
+    path: ['function', 'replay'],
+    group: 'Building an app',
+    summary:
+      'Run one of your checkout functions on the baskets a development store priced recently.',
+    args: [FUNCTION_HANDLE, MANIFEST],
+    flags: [
+      {
+        name: 'store',
+        value: '<handle>',
+        description:
+          'Which development store, by handle or id. The one `app dev` used, or your only one, when not given.',
+      },
+      {
+        name: 'limit',
+        value: '<n>',
+        description: 'How many baskets, newest first. 20 when not given, and at most 50.',
+      },
+      json('each basket and what the function answered'),
+    ],
+    examples: ['function replay volume_discount', 'function replay packs_of_six --limit 50'],
+    guide: FUNCTIONS,
   },
   {
     id: 'store.list',

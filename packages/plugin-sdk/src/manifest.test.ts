@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { ManifestError, parseManifest, validateEvents, validateScopes } from './manifest';
+import {
+  ManifestError,
+  manifestUrls,
+  parseManifest,
+  validateEvents,
+  validateScopes,
+} from './manifest';
 
 const VALID = `
 [app]
@@ -467,5 +473,45 @@ usage = { cap = { usd = 5000, gbp = 4000, eur = 5000, inr = 400000 }, terms = "$
     expect(() => parseManifest(VALID + USAGE.replace('mode = "api"', 'mode = "managed"'))).toThrow(
       /needs mode = "api"/,
     );
+  });
+});
+
+describe('[[assistant.tools]]', () => {
+  const tool = (lines: string) => `${VALID}
+[[assistant.tools]]
+name = "draft_campaign"
+description = "Drafts an email campaign for the products the merchant names."
+url = "https://hello.example.com/assistant/draft-campaign"
+${lines}
+`;
+
+  it('parses the same shape as an MCP tool, and is a write unless it says it only reads', () => {
+    const manifest = parseManifest(tool('scopes = ["products:read"]'));
+    const parsed = manifest.assistant?.tools?.[0];
+    expect(parsed?.name).toBe('draft_campaign');
+    expect(parsed?.read_only).toBe(false);
+    expect(parsed?.input_schema).toEqual({ type: 'object', additionalProperties: false });
+    expect(
+      parseManifest(tool('scopes = ["products:read"]\nread_only = true')).assistant?.tools?.[0]
+        ?.read_only,
+    ).toBe(true);
+  });
+
+  it('refuses a read-only tool that holds a write scope', () => {
+    expect(() => parseManifest(tool('scopes = ["products:write"]\nread_only = true'))).toThrow(
+      /read_only cannot hold products:write/,
+    );
+  });
+
+  it('refuses a scope the app never asks for', () => {
+    expect(() => parseManifest(tool('scopes = ["orders:write"]'))).toThrow(
+      /assistant.tools.draft_campaign: needs orders:write/,
+    );
+  });
+
+  it('counts its address and scopes like every other door', () => {
+    const manifest = parseManifest(tool('scopes = ["products:read"]'));
+    expect(manifestUrls(manifest)).toContain('https://hello.example.com/assistant/draft-campaign');
+    expect(() => validateScopes(manifest, ['products:read'])).toThrow(/products:write/);
   });
 });

@@ -535,6 +535,7 @@ export interface Order {
   taxTransactionId: string | null;
   discountId: string | null;
   discountCode: string | null;
+  appDiscounts: unknown;
   /** Labels the shop put on the order. Staff only, never shown to a shopper. */
   tags: string[];
   /** When the shop kept this order back from being sent. Null when it may go. */

@@ -702,6 +702,49 @@
       "additionalProperties": false,
       "description": "Run your app on Storeware, free, at https://<slug>.storewareapps.com. In beta."
     },
+    "functions": {
+      "maxItems": 10,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["discount", "delivery_rates", "payment_methods", "cart_validation"],
+            "description": "discount, delivery_rates, payment_methods or cart_validation."
+          },
+          "handle": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,63}$",
+            "description": "The name it is exported under, in `export const functions = { handle }`."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60,
+            "description": "What a merchant sees, such as Volume discount."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "One sentence for the merchant on what it changes."
+          },
+          "metafields": {
+            "default": [],
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(product|variant|customer)\\.[a-z][a-z0-9_]{1,63}$"
+            },
+            "description": "Fields this app keeps that the function is handed: product.<key>, variant.<key> or customer.<key>."
+          }
+        },
+        "required": ["kind", "handle", "name"],
+        "additionalProperties": false
+      },
+      "description": "Checkout functions: pure code Storeware runs whenever a basket is priced, for shoppers and AI agents alike."
+    },
     "knowledge": {
       "type": "object",
       "properties": {
@@ -864,6 +907,65 @@
         }
       },
       "description": "Tools your app adds to every assistant on a shop."
+    },
+    "assistant": {
+      "type": "object",
+      "properties": {
+        "tools": {
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,63}$",
+                "description": "The tool’s name, in lower_snake_case."
+              },
+              "description": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 500,
+                "description": "What the tool does, for the model choosing it."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Where Storeware calls the tool."
+              },
+              "scopes": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z_]+:(read|write)$"
+                },
+                "description": "Scopes the tool uses."
+              },
+              "input_schema": {
+                "default": {
+                  "type": "object",
+                  "additionalProperties": false
+                },
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {},
+                "description": "The tool’s arguments, as JSON Schema."
+              },
+              "read_only": {
+                "default": false,
+                "type": "boolean",
+                "description": "True when the tool changes nothing. Otherwise it runs only after the merchant says the assistant may change things."
+              }
+            },
+            "required": ["name", "description", "url"]
+          },
+          "description": "Up to 20 tools."
+        }
+      },
+      "description": "Tools your app gives the merchant’s own assistant in the admin."
     }
   },
   "required": ["app", "oauth"],

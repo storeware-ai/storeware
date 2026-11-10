@@ -1,7 +1,7 @@
 name: Release packages
 
 # Publishes the four packages on a tag named for their version:
-#   git tag packages-v1.0.0-beta.1 && git push origin packages-v1.0.0-beta.1
+#   git tag packages-v1.0.0-beta.2 && git push origin packages-v1.0.0-beta.2
 #
 # Through npm trusted publishing: npm trusts this workflow, in this repository,
 # by name, so nothing secret is stored here, and npm records provenance (this

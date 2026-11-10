@@ -99,6 +99,11 @@ async function loadState(directory: string): Promise<DevState> {
   }
 }
 
+/** The development store `app dev` last ran this app on, if it has. */
+export async function rememberedStoreId(directory: string): Promise<string | undefined> {
+  return (await loadState(directory)).storeId;
+}
+
 async function saveState(directory: string, state: DevState): Promise<void> {
   const folder = join(directory, '.storeware');
   await mkdir(folder, { recursive: true });

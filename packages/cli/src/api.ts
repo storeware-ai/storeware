@@ -175,6 +175,34 @@ export function listDevelopmentStores(credentials: Credentials): Promise<Develop
   return request(credentials, '/api/v1/developer/dev-stores');
 }
 
+/** One basket a development store priced, as a checkout function was handed it. */
+export interface FunctionInput {
+  sessionId: string;
+  at: string;
+  input: unknown;
+}
+
+/**
+ * The inputs a development store's recent baskets gave one of an app's
+ * checkout functions, newest first, for `function replay`. Development stores
+ * only: a real shop's baskets are its shoppers', not the developer's.
+ */
+export function fetchFunctionInputs(
+  credentials: Credentials,
+  storeId: string,
+  query: { app: string; handle: string; limit: number },
+): Promise<{ kind: string; inputs: FunctionInput[] }> {
+  const params = new URLSearchParams({
+    app: query.app,
+    handle: query.handle,
+    limit: String(query.limit),
+  });
+  return request(
+    credentials,
+    `/api/v1/developer/dev-stores/${encodeURIComponent(storeId)}/function-inputs?${params}`,
+  );
+}
+
 export function createDevelopmentStore(
   credentials: Credentials,
   name: string,

@@ -2191,6 +2191,7 @@ export interface GetCustomerResponse {
       taxTransactionId: string | null;
       discountId: string | null;
       discountCode: string | null;
+      appDiscounts: unknown;
       tags: string[];
       heldAt: string | null;
       heldBy: string | null;

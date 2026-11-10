@@ -1,0 +1,63 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "8f3c2a9d1e7b4c6a5f0e9d8c7b6a5f4e"
+name = "Size Guide Pro"
+handle = "size-guide-pro"
+application_url = "https://sizeguide.example.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "size-guide-dev.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# https://shopify.dev/docs/api/usage/access-scopes
+scopes = "read_products,write_products,read_orders,read_customers,read_inventory,read_themes,read_markets"
+optional_scopes = ["read_discounts"]
+
+[auth]
+redirect_urls = [
+  "https://sizeguide.example.com/auth/callback",
+  "https://sizeguide.example.com/auth/shopify/callback",
+  "https://sizeguide.example.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2025-07"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled", "app/scopes_update" ]
+  uri = "/webhooks/app"
+
+  [[webhooks.subscriptions]]
+  topics = [ "products/update", "products/create", "orders/paid", "inventory_levels/update" ]
+  uri = "/webhooks/app"
+
+  [[webhooks.subscriptions]]
+  topics = [ "shop/update", "products/delete" ]
+  uri = "/webhooks/app"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+  uri = "https://sizeguide.example.com/webhooks/compliance"
+
+[app_proxy]
+url = "https://sizeguide.example.com/proxy"
+subpath = "size-guide"
+prefix = "apps"
+
+[app_preferences]
+url = "https://sizeguide.example.com/settings"
+
+[pos]
+embedded = true
+
+[[extensions]]
+name = "Charts"
+handle = "charts-link"
+type = "admin_link"
+
+  [[extensions.targeting]]
+  target = "admin.app.nav.link"
+  url = "app://charts"

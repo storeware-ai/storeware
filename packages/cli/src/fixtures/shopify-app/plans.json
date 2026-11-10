@@ -1,0 +1,13 @@
+{
+  "plans": [
+    { "name": "Starter", "amount": 0, "interval": "EVERY_30_DAYS" },
+    {
+      "name": "Pro",
+      "amount": 9.99,
+      "interval": "EVERY_30_DAYS",
+      "trial_days": 14,
+      "features": ["Unlimited size charts", "Fit notes on every product"]
+    },
+    { "name": "Pro yearly", "amount": 99, "interval": "ANNUAL", "trial_days": 14 }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "@storeware/plugin-sdk",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Build plugins for Storeware. Verify webhooks, call the API, stay in scope.",
   "license": "MIT",
   "homepage": "https://storeware.ai/docs",
@@ -22,6 +22,7 @@
     "./actions": "./src/actions.ts",
     "./rates": "./src/rates.ts",
     "./hosted": "./src/hosted.ts",
+    "./functions": "./src/functions.ts",
     "./components": "./src/components.ts",
     "./bridge": "./src/bridge.ts",
     "./bridge/protocol": "./src/bridge/protocol.ts",
@@ -80,6 +81,10 @@
       "./hosted": {
         "types": "./dist/hosted.d.ts",
         "default": "./dist/hosted.js"
+      },
+      "./functions": {
+        "types": "./dist/functions.d.ts",
+        "default": "./dist/functions.js"
       },
       "./components": {
         "types": "./dist/components.d.ts",

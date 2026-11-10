@@ -1,5 +1,6 @@
 import { parse as parseToml } from 'smol-toml';
 import { z } from 'zod';
+import { FUNCTION_KINDS } from './functions';
 
 /**
  * The plugin manifest, `storeware.app.toml`.
@@ -344,6 +345,32 @@ export type AutomationTrigger = z.infer<typeof automationTrigger>;
 export type AutomationAction = z.infer<typeof automationAction>;
 
 /**
+ * One tool an app offers an assistant: `[[mcp.tools]]` for every assistant on
+ * a shop, `[[assistant.tools]]` for the merchant's own.
+ */
+const appTool = z.object({
+  // Tool names reach a model, and a model picks tools by name, so
+  // they follow the same convention as ours rather than whatever
+  // casing an author prefers.
+  name: z.string().regex(/^[a-z][a-z0-9_]{2,63}$/, 'must be lower_snake_case'),
+  description: z.string().trim().min(10).max(500),
+  url: httpsUrl,
+  scopes: z.array(scopeName).default([]),
+  /**
+   * The tool's arguments, as JSON Schema.
+   *
+   * A model picks a tool by its name and then has to fill in its
+   * arguments, so a tool without this is one the model can only
+   * call by guessing. Optional because a tool may genuinely take
+   * none, and the default below says exactly that rather than
+   * leaving it open.
+   */
+  input_schema: z
+    .record(z.string(), z.unknown())
+    .default({ type: 'object', additionalProperties: false }),
+});
+
+/**
  * The manifest's shape. Exported for `manifest-schema.ts`, which publishes it
  * as JSON Schema; everything else parses through `parseManifest`.
  */
@@ -507,6 +534,43 @@ export const manifestSchema = z
       .strict()
       .optional(),
     /**
+     * Checkout functions: pure code Storeware runs whenever a basket is priced,
+     * on the web and for AI agents alike, to offer a discount, shape the
+     * delivery options, choose the payment methods or refuse the basket. Each
+     * is exported from the hosted bundle as `functions[handle]`.
+     */
+    functions: z
+      .array(
+        z
+          .object({
+            kind: z.enum(FUNCTION_KINDS),
+            handle: z
+              .string()
+              .regex(/^[a-z][a-z0-9_]{1,63}$/, 'must be lower_snake_case, up to 64 characters'),
+            name: z.string().trim().min(1).max(60),
+            description: z.string().trim().max(200).optional(),
+            /**
+             * Fields this app keeps that the function is handed, as
+             * `product.<key>`, `variant.<key>` or `customer.<key>`. Only fields
+             * this manifest declares, so a function never reads another app's.
+             */
+            metafields: z
+              .array(
+                z
+                  .string()
+                  .regex(
+                    /^(product|variant|customer)\.[a-z][a-z0-9_]{1,63}$/,
+                    'must be product.<key>, variant.<key> or customer.<key>',
+                  ),
+              )
+              .max(10)
+              .default([]),
+          })
+          .strict(),
+      )
+      .max(10)
+      .optional(),
+    /**
      * What a plugin knows about products, as opposed to what it can do to them.
      *
      * The other sections let a plugin act: receive events, render a panel, offer
@@ -618,30 +682,33 @@ export const manifestSchema = z
       .optional(),
     mcp: z
       .object({
+        tools: z.array(appTool).optional(),
+      })
+      .optional(),
+    /**
+     * Tools your app gives the merchant's own assistant in the admin.
+     *
+     * The same shape as `[[mcp.tools]]`, called the same way, plus `read_only`.
+     * The person in the admin is the merchant, so a tool here may change
+     * things; one that does runs only after that person has said the assistant
+     * may change things for this question, and never in a background run.
+     */
+    assistant: z
+      .object({
         tools: z
           .array(
-            z.object({
-              // Tool names reach a model, and a model picks tools by name, so
-              // they follow the same convention as ours rather than whatever
-              // casing an author prefers.
-              name: z.string().regex(/^[a-z][a-z0-9_]{2,63}$/, 'must be lower_snake_case'),
-              description: z.string().trim().min(10).max(500),
-              url: httpsUrl,
-              scopes: z.array(scopeName).default([]),
+            appTool.extend({
               /**
-               * The tool's arguments, as JSON Schema.
+               * True when the tool only reads, in Storeware and in your app.
                *
-               * A model picks a tool by its name and then has to fill in its
-               * arguments, so a tool without this is one the model can only
-               * call by guessing. Optional because a tool may genuinely take
-               * none, and the default below says exactly that rather than
-               * leaving it open.
+               * False by default, so a tool runs only after the person has said
+               * the assistant may change things, unless you say it changes
+               * nothing. A tool with a `:write` scope cannot say so.
                */
-              input_schema: z
-                .record(z.string(), z.unknown())
-                .default({ type: 'object', additionalProperties: false }),
+              read_only: z.boolean().default(false),
             }),
           )
+          .max(20)
           .optional(),
       })
       .optional(),
@@ -711,6 +778,28 @@ export function parseManifest(source: string): PluginManifest {
   const toolNames = (manifest.mcp?.tools ?? []).map((t) => t.name);
   if (new Set(toolNames).size !== toolNames.length) {
     problems.push('mcp.tools: two tools share a name');
+  }
+
+  for (const tool of manifest.assistant?.tools ?? []) {
+    const missing = tool.scopes.filter((scope) => !declared.has(scope));
+    if (missing.length > 0) {
+      problems.push(
+        `assistant.tools.${tool.name}: needs ${missing.join(', ')}, which oauth.scopes does not request`,
+      );
+    }
+    // A tool that may write cannot also tell the merchant it only reads: the
+    // promise is what lets it run without the person saying yes first.
+    const writes = tool.scopes.filter((scope) => scope.endsWith(':write'));
+    if (tool.read_only && writes.length > 0) {
+      problems.push(
+        `assistant.tools.${tool.name}: read_only cannot hold ${writes.join(', ')}. Drop read_only, or the write scope`,
+      );
+    }
+  }
+
+  const assistantToolNames = (manifest.assistant?.tools ?? []).map((t) => t.name);
+  if (new Set(assistantToolNames).size !== assistantToolNames.length) {
+    problems.push('assistant.tools: two tools share a name');
   }
 
   if (manifest.knowledge) {
@@ -817,6 +906,7 @@ export function parseManifest(source: string): PluginManifest {
   }
 
   problems.push(...hostingProblems(manifest));
+  problems.push(...functionProblems(manifest));
 
   if (problems.length > 0) {
     throw new ManifestError(
@@ -845,11 +935,46 @@ export function manifestUrls(manifest: PluginManifest): string[] {
     ...(manifest.extensions?.storefront ?? []).map((e) => e.url),
     ...(manifest.extensions?.sections ?? []).map((e) => e.url),
     ...(manifest.mcp?.tools ?? []).map((t) => t.url),
+    ...(manifest.assistant?.tools ?? []).map((t) => t.url),
     ...(manifest.knowledge ? [manifest.knowledge.url] : []),
     ...(manifest.app_proxy ? [manifest.app_proxy.url] : []),
     ...(manifest.automations?.actions ?? []).map((a) => a.url),
     ...(manifest.checkout?.delivery_rates ? [manifest.checkout.delivery_rates.url] : []),
   ];
+}
+
+/**
+ * The rules for checkout functions: hosted code only, since a function runs in
+ * Storeware's own sealed isolate; `checkout:read`, since every function is
+ * handed the basket and who is buying; one handle once; and only fields this
+ * app declares.
+ */
+function functionProblems(manifest: PluginManifest): string[] {
+  const functions = manifest.functions ?? [];
+  if (functions.length === 0) return [];
+  const problems: string[] = [];
+  if (!manifest.runtime) {
+    problems.push('functions: checkout functions run on Storeware, so they need [runtime]');
+  }
+  if (!manifest.oauth.scopes.includes('checkout:read')) {
+    problems.push('functions: need checkout:read, which oauth.scopes does not request');
+  }
+  const handles = functions.map((fn) => fn.handle);
+  if (new Set(handles).size !== handles.length) problems.push('functions: two share a handle');
+  const declared = new Set(
+    (manifest.metafields?.definitions ?? []).map((field) => `${field.owner_type}.${field.key}`),
+  );
+  for (const fn of functions) {
+    for (const field of fn.metafields) {
+      if (!declared.has(field)) {
+        problems.push(`functions.${fn.handle}: ${field} is not a field this app declares`);
+      }
+    }
+    if (new Set(fn.metafields).size !== fn.metafields.length) {
+      problems.push(`functions.${fn.handle}: names a field twice`);
+    }
+  }
+  return problems;
 }
 
 /**
@@ -961,6 +1086,7 @@ export function validateScopes(manifest: PluginManifest, knownScopes: readonly s
   const asked = [
     ...manifest.oauth.scopes,
     ...(manifest.mcp?.tools ?? []).flatMap((t) => t.scopes),
+    ...(manifest.assistant?.tools ?? []).flatMap((t) => t.scopes),
     ...(manifest.knowledge?.scopes ?? []),
     ...(manifest.metafields?.scopes ?? []),
   ];
