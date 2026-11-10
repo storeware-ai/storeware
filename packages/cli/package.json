@@ -1,6 +1,6 @@
 {
   "name": "@storeware/cli",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "Scaffold, run, check and ship Storeware apps.",
   "license": "MIT",
   "homepage": "https://storeware.ai/docs/cli",
