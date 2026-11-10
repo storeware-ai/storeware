@@ -1,0 +1,62 @@
+name: Release packages
+
+# Publishes the four packages on a tag named for their version:
+#   git tag packages-v1.0.0-beta.1 && git push origin packages-v1.0.0-beta.1
+#
+# Through npm trusted publishing: npm trusts this workflow, in this repository,
+# by name, so nothing secret is stored here, and npm records provenance (this
+# repository, this workflow, this commit) on each version.
+
+on:
+  push:
+    tags: ['packages-v*']
+
+concurrency:
+  group: release-packages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  # The run's identity, which npm checks against the trusted publisher.
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      # Node 24 ships npm 11, which trusted publishing needs.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Check the tag names the packages' version
+        run: |
+          version="${GITHUB_REF_NAME#packages-v}"
+          for folder in plugin-sdk app-ui app-bridge-react cli; do
+            found=$(node -p "require('./packages/$folder/package.json').version")
+            if [ "$found" != "$version" ]; then
+              echo "packages/$folder is $found, but the tag says $version." >&2
+              exit 1
+            fi
+          done
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Pack, then scaffold, install and build every template from the tarballs
+        run: node scripts/pack-smoke.mjs --out "$RUNNER_TEMP/tarballs"
+
+      # A version with a hyphen is a prerelease and goes out under `beta`. The
+      # SDK first and the CLI last, so nothing is on npm before what it needs.
+      - name: Publish
+        run: |
+          case "$VERSION" in *-*) tag=beta ;; *) tag=latest ;; esac
+          for name in plugin-sdk app-ui app-bridge-react cli; do
+            npm publish "$RUNNER_TEMP/tarballs/storeware-$name-$VERSION.tgz" --access public --tag "$tag"
+          done

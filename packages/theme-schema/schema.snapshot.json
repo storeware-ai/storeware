@@ -1,0 +1,2079 @@
+{
+  "snapshotVersion": 1,
+  "maxHeading": 120,
+  "maxBody": 2000,
+  "maxSectionsPerPage": 12,
+  "pageTypes": [
+    "home",
+    "product",
+    "collection",
+    "page",
+    "article",
+    "blog",
+    "search",
+    "cart",
+    "account",
+    "not_found",
+    "shop"
+  ],
+  "fieldKinds": [
+    "text",
+    "richtext",
+    "number",
+    "boolean",
+    "select",
+    "colour",
+    "media",
+    "product",
+    "collection",
+    "blog",
+    "url"
+  ],
+  "sections": {
+    "intro": {
+      "pages": [
+        "home"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      }
+    },
+    "assistant": {
+      "pages": [
+        "collection",
+        "home",
+        "not_found",
+        "search"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        }
+      }
+    },
+    "products": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 48,
+          "min": 1
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "mosaic",
+            "list",
+            "bento",
+            "index",
+            "offset",
+            "carousel",
+            "marquee",
+            "menu",
+            "stack"
+          ]
+        }
+      }
+    },
+    "collections": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 48,
+          "min": 1
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "tiles",
+            "chips"
+          ]
+        }
+      }
+    },
+    "note": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      }
+    },
+    "hero": {
+      "pages": [
+        "blog",
+        "collection",
+        "home",
+        "page",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "subheading": {
+          "kind": "text",
+          "max": 300
+        },
+        "image": {
+          "kind": "media"
+        },
+        "video": {
+          "kind": "url"
+        },
+        "ctaLabel": {
+          "kind": "text",
+          "max": 60
+        },
+        "ctaHref": {
+          "kind": "url"
+        },
+        "align": {
+          "kind": "select",
+          "choices": [
+            "start",
+            "centre"
+          ]
+        },
+        "width": {
+          "kind": "select",
+          "choices": [
+            "contained",
+            "full"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "fit": {
+          "kind": "boolean"
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "classic",
+            "image_scrim",
+            "split",
+            "editorial",
+            "poster",
+            "cover"
+          ]
+        }
+      }
+    },
+    "rich_text": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "align": {
+          "kind": "select",
+          "choices": [
+            "start",
+            "centre"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      }
+    },
+    "image_with_text": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "image": {
+          "kind": "media"
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "ctaLabel": {
+          "kind": "text",
+          "max": 60
+        },
+        "ctaHref": {
+          "kind": "url"
+        },
+        "imageSide": {
+          "kind": "select",
+          "choices": [
+            "start",
+            "end"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "shape": {
+          "kind": "select",
+          "choices": [
+            "plain",
+            "arch",
+            "circle",
+            "pill",
+            "blob",
+            "ticket",
+            "torn"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "split",
+            "overlap",
+            "stacked",
+            "bleed",
+            "sticky",
+            "masked"
+          ]
+        }
+      }
+    },
+    "multicolumn": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "columns",
+            "numbered",
+            "rail"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "column",
+        "max": 4,
+        "settings": {
+          "icon": {
+            "kind": "media"
+          },
+          "heading": {
+            "kind": "text",
+            "max": 120
+          },
+          "body": {
+            "kind": "richtext",
+            "max": 2000
+          },
+          "href": {
+            "kind": "url"
+          }
+        }
+      }
+    },
+    "gallery": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "shape": {
+          "kind": "select",
+          "choices": [
+            "plain",
+            "arch",
+            "circle",
+            "pill",
+            "blob",
+            "ticket",
+            "torn"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "mosaic",
+            "bleed",
+            "offset"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "image",
+        "max": 12,
+        "settings": {
+          "image": {
+            "kind": "media"
+          },
+          "alt": {
+            "kind": "text",
+            "max": 300
+          },
+          "href": {
+            "kind": "url"
+          }
+        }
+      }
+    },
+    "video": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "poster": {
+          "kind": "media"
+        },
+        "href": {
+          "kind": "url"
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        }
+      }
+    },
+    "banner": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search",
+        "shop"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "body": {
+          "kind": "text",
+          "max": 300
+        },
+        "href": {
+          "kind": "url"
+        },
+        "background": {
+          "kind": "colour"
+        },
+        "foreground": {
+          "kind": "colour"
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "strip",
+            "ticker"
+          ]
+        }
+      }
+    },
+    "spacer": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "size": {
+          "kind": "number",
+          "max": 8,
+          "min": 1
+        }
+      }
+    },
+    "divider": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {}
+    },
+    "featured_product": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "product": {
+          "kind": "product"
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "buyHere": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "featured_collection": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "collection": {
+          "kind": "collection"
+        },
+        "limit": {
+          "kind": "number",
+          "max": 48,
+          "min": 1
+        }
+      }
+    },
+    "collection_list": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "first": {
+          "kind": "collection"
+        },
+        "second": {
+          "kind": "collection"
+        },
+        "third": {
+          "kind": "collection"
+        },
+        "fourth": {
+          "kind": "collection"
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "tiles",
+            "chips"
+          ]
+        }
+      }
+    },
+    "collection_columns": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "first": {
+          "kind": "collection"
+        },
+        "second": {
+          "kind": "collection"
+        },
+        "third": {
+          "kind": "collection"
+        },
+        "limit": {
+          "kind": "number",
+          "max": 8,
+          "min": 1
+        }
+      }
+    },
+    "faq": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "list",
+            "two_column",
+            "sticky"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "question",
+        "max": 20,
+        "settings": {
+          "question": {
+            "kind": "text",
+            "max": 300
+          },
+          "answer": {
+            "kind": "richtext",
+            "max": 2000
+          }
+        }
+      }
+    },
+    "testimonials": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "marquee"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "testimonial",
+        "max": 12,
+        "settings": {
+          "quote": {
+            "kind": "text",
+            "max": 600
+          },
+          "attribution": {
+            "kind": "text",
+            "max": 120
+          }
+        }
+      }
+    },
+    "logo_list": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "marquee"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "logo",
+        "max": 12,
+        "settings": {
+          "image": {
+            "kind": "media"
+          },
+          "alt": {
+            "kind": "text",
+            "max": 200
+          },
+          "href": {
+            "kind": "url"
+          }
+        }
+      }
+    },
+    "policy_badges": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "showShipping": {
+          "kind": "boolean"
+        },
+        "showReturns": {
+          "kind": "boolean"
+        },
+        "showContact": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "blog_posts": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "blog": {
+          "kind": "blog"
+        },
+        "limit": {
+          "kind": "number",
+          "max": 12,
+          "min": 1
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "list",
+            "cards",
+            "rail"
+          ]
+        }
+      }
+    },
+    "article_body": {
+      "pages": [
+        "article"
+      ],
+      "settings": {}
+    },
+    "contact_form": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "buttonLabel": {
+          "kind": "text",
+          "max": 60
+        },
+        "askSubject": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "newsletter_signup": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "buttonLabel": {
+          "kind": "text",
+          "max": 60
+        }
+      }
+    },
+    "reviews": {
+      "pages": [
+        "product"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 20,
+          "min": 1
+        },
+        "showForm": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "related_products": {
+      "pages": [
+        "product"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 12,
+          "min": 1
+        }
+      }
+    },
+    "styled_with": {
+      "pages": [
+        "product"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "limit": {
+          "kind": "number",
+          "max": 6,
+          "min": 1
+        }
+      }
+    },
+    "recently_viewed": {
+      "pages": [
+        "cart",
+        "collection",
+        "home",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 12,
+          "min": 1
+        }
+      }
+    },
+    "countdown": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "endsAt": {
+          "kind": "text",
+          "max": 40
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "expiredBody": {
+          "kind": "text",
+          "max": 300
+        }
+      }
+    },
+    "plugin_block": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "plugin": {
+          "kind": "text",
+          "max": 200
+        }
+      }
+    },
+    "app_block": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "app": {
+          "kind": "text",
+          "max": 63
+        },
+        "section": {
+          "kind": "text",
+          "max": 32
+        }
+      }
+    },
+    "cta_bar": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "buttonLabel": {
+          "kind": "text",
+          "max": 60
+        },
+        "href": {
+          "kind": "url"
+        },
+        "sticky": {
+          "kind": "boolean"
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      }
+    },
+    "article_meta": {
+      "pages": [
+        "article"
+      ],
+      "settings": {
+        "showAuthor": {
+          "kind": "boolean"
+        },
+        "showReadingTime": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "article_toc": {
+      "pages": [
+        "article"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        }
+      }
+    },
+    "article_share": {
+      "pages": [
+        "article"
+      ],
+      "settings": {
+        "heading": {
+          "kind": "text",
+          "max": 120
+        }
+      }
+    },
+    "article_related": {
+      "pages": [
+        "article"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 6,
+          "min": 1
+        }
+      }
+    },
+    "author_bio": {
+      "pages": [
+        "article"
+      ],
+      "settings": {}
+    },
+    "page_body": {
+      "pages": [
+        "page"
+      ],
+      "settings": {}
+    },
+    "article_list": {
+      "pages": [
+        "blog"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 48,
+          "min": 1
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "list",
+            "cards",
+            "rail"
+          ]
+        }
+      }
+    },
+    "collection_header": {
+      "pages": [
+        "collection"
+      ],
+      "settings": {}
+    },
+    "collection_products": {
+      "pages": [
+        "collection"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "limit": {
+          "kind": "number",
+          "max": 48,
+          "min": 4
+        },
+        "filters": {
+          "kind": "boolean"
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "feature": {
+          "kind": "media"
+        },
+        "featureLine": {
+          "kind": "text",
+          "max": 120
+        },
+        "featureHref": {
+          "kind": "url"
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "grid",
+            "rail",
+            "mosaic",
+            "list",
+            "index",
+            "offset",
+            "bento",
+            "menu",
+            "stack"
+          ]
+        }
+      }
+    },
+    "marquee": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "speed": {
+          "kind": "select",
+          "choices": [
+            "slow",
+            "steady",
+            "quick"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "phrase",
+        "max": 12,
+        "settings": {
+          "text": {
+            "kind": "text",
+            "max": 80
+          }
+        }
+      }
+    },
+    "manifesto": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "align": {
+          "kind": "select",
+          "choices": [
+            "start",
+            "centre"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "fit": {
+          "kind": "boolean"
+        }
+      }
+    },
+    "promo_pair": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "tiles",
+            "panels",
+            "spread"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "tile",
+        "max": 6,
+        "settings": {
+          "image": {
+            "kind": "media"
+          },
+          "kicker": {
+            "kind": "text",
+            "max": 60
+          },
+          "heading": {
+            "kind": "text",
+            "max": 120
+          },
+          "body": {
+            "kind": "text",
+            "max": 240
+          },
+          "ctaLabel": {
+            "kind": "text",
+            "max": 60
+          },
+          "href": {
+            "kind": "url"
+          }
+        }
+      }
+    },
+    "process_steps": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "step",
+        "max": 6,
+        "settings": {
+          "heading": {
+            "kind": "text",
+            "max": 120
+          },
+          "body": {
+            "kind": "richtext",
+            "max": 2000
+          },
+          "image": {
+            "kind": "media"
+          }
+        }
+      }
+    },
+    "figures": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        }
+      },
+      "blocks": {
+        "type": "figure",
+        "max": 4,
+        "settings": {
+          "value": {
+            "kind": "text",
+            "max": 24
+          },
+          "label": {
+            "kind": "text",
+            "max": 60
+          }
+        }
+      }
+    },
+    "comparison": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "ours": {
+          "kind": "text",
+          "max": 60
+        },
+        "theirs": {
+          "kind": "text",
+          "max": 60
+        }
+      },
+      "blocks": {
+        "type": "row",
+        "max": 10,
+        "settings": {
+          "label": {
+            "kind": "text",
+            "max": 80
+          },
+          "ours": {
+            "kind": "text",
+            "max": 80
+          },
+          "theirs": {
+            "kind": "text",
+            "max": 80
+          }
+        }
+      }
+    },
+    "lookbook": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "image": {
+          "kind": "media"
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "spot",
+        "max": 6,
+        "settings": {
+          "product": {
+            "kind": "product"
+          },
+          "x": {
+            "kind": "number",
+            "max": 100,
+            "min": 0
+          },
+          "y": {
+            "kind": "number",
+            "max": 100,
+            "min": 0
+          }
+        }
+      }
+    },
+    "collage": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        },
+        "preset": {
+          "kind": "select",
+          "choices": [
+            "scatter",
+            "stack",
+            "strip"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "picture",
+        "max": 5,
+        "settings": {
+          "image": {
+            "kind": "media"
+          },
+          "alt": {
+            "kind": "text",
+            "max": 300
+          },
+          "caption": {
+            "kind": "text",
+            "max": 80
+          },
+          "href": {
+            "kind": "url"
+          },
+          "shape": {
+            "kind": "select",
+            "choices": [
+              "plain",
+              "arch",
+              "circle",
+              "pill",
+              "blob",
+              "ticket",
+              "torn"
+            ]
+          }
+        }
+      }
+    },
+    "split_screen": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "body": {
+          "kind": "richtext",
+          "max": 2000
+        },
+        "ctaLabel": {
+          "kind": "text",
+          "max": 60
+        },
+        "ctaHref": {
+          "kind": "url"
+        },
+        "side": {
+          "kind": "select",
+          "choices": [
+            "start",
+            "end"
+          ]
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      },
+      "blocks": {
+        "type": "picture",
+        "max": 6,
+        "settings": {
+          "image": {
+            "kind": "media"
+          },
+          "alt": {
+            "kind": "text",
+            "max": 300
+          },
+          "caption": {
+            "kind": "text",
+            "max": 120
+          }
+        }
+      }
+    },
+    "collection_tabs": {
+      "pages": [
+        "account",
+        "article",
+        "blog",
+        "cart",
+        "collection",
+        "home",
+        "not_found",
+        "page",
+        "product",
+        "search"
+      ],
+      "settings": {
+        "kicker": {
+          "kind": "text",
+          "max": 60
+        },
+        "heading": {
+          "kind": "text",
+          "max": 120
+        },
+        "first": {
+          "kind": "collection"
+        },
+        "second": {
+          "kind": "collection"
+        },
+        "third": {
+          "kind": "collection"
+        },
+        "fourth": {
+          "kind": "collection"
+        },
+        "limit": {
+          "kind": "number",
+          "max": 12,
+          "min": 1
+        },
+        "scheme": {
+          "kind": "select",
+          "choices": [
+            "base",
+            "raised",
+            "tint",
+            "inverse",
+            "accent",
+            "accent2"
+          ]
+        }
+      }
+    }
+  }
+}

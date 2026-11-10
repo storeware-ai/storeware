@@ -1,0 +1,10 @@
+{
+  "extends": "@storeware/config/tsconfig/library.json",
+  "compilerOptions": {
+    // This package spans two runtimes: node:crypto on a plugin author's
+    // server, and postMessage in the iframe bundle their extension ships.
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

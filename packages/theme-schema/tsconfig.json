@@ -1,0 +1,6 @@
+{
+  "extends": "@storeware/config/tsconfig/library.json",
+  "compilerOptions": { "rootDir": "." },
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

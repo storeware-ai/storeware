@@ -1,0 +1,23 @@
+{
+  "name": "storeware-packages",
+  "private": true,
+  "description": "The Storeware CLI, SDK, App Bridge for React and App UI, as they are released.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.5.1",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter ./packages/plugin-sdk build:dist && pnpm --filter ./packages/app-ui build:dist && pnpm --filter ./packages/app-bridge-react build:dist && pnpm --filter ./packages/cli build:dist",
+    "test": "pnpm --filter ./packages/plugin-sdk test && pnpm --filter ./packages/app-ui test && pnpm --filter ./packages/app-bridge-react test && pnpm --filter ./packages/cli test",
+    "typecheck": "pnpm --filter ./packages/plugin-sdk typecheck && pnpm --filter ./packages/app-ui typecheck && pnpm --filter ./packages/app-bridge-react typecheck && pnpm --filter ./packages/cli typecheck",
+    "smoke": "node scripts/pack-smoke.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
+  }
+}

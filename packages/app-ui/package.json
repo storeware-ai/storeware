@@ -1,0 +1,59 @@
+{
+  "name": "@storeware/app-ui",
+  "version": "1.0.0-beta.0",
+  "description": "React components for pages the Storeware admin frames, styled only by the admin's 13 --sw-* variables.",
+  "license": "MIT",
+  "homepage": "https://storeware.ai/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storeware-ai/storeware.git",
+    "directory": "packages/app-ui"
+  },
+  "type": "module",
+  "main": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./styles": "./src/styles.ts"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./styles": {
+        "types": "./dist/styles.d.ts",
+        "default": "./dist/styles.js"
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "build:dist": "node ../../scripts/build-package.mjs",
+    "prepack": "pnpm run build:dist"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@storeware/config": "workspace:*",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.18.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

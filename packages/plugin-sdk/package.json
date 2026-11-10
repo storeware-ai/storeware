@@ -1,0 +1,148 @@
+{
+  "name": "@storeware/plugin-sdk",
+  "version": "1.0.0-beta.0",
+  "description": "Build plugins for Storeware. Verify webhooks, call the API, stay in scope.",
+  "license": "MIT",
+  "homepage": "https://storeware.ai/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storeware-ai/storeware.git",
+    "directory": "packages/plugin-sdk"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./manifest": "./src/manifest.ts",
+    "./session": "./src/session.ts",
+    "./webhooks": "./src/webhooks.ts",
+    "./blocks": "./src/blocks.ts",
+    "./proxy": "./src/proxy.ts",
+    "./actions": "./src/actions.ts",
+    "./rates": "./src/rates.ts",
+    "./hosted": "./src/hosted.ts",
+    "./components": "./src/components.ts",
+    "./bridge": "./src/bridge.ts",
+    "./bridge/protocol": "./src/bridge/protocol.ts",
+    "./router": "./src/router.ts",
+    "./oauth": "./src/oauth.ts",
+    "./app": "./src/app.ts",
+    "./node": "./src/node.ts",
+    "./testing": "./src/testing.ts",
+    "./manifest-schema": "./src/manifest-schema.ts",
+    "./schema/storeware.app.schema.json": "./schema/storeware.app.schema.json",
+    "./api": "./src/generated/index.ts"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./manifest": {
+        "types": "./dist/manifest.d.ts",
+        "default": "./dist/manifest.js"
+      },
+      "./session": {
+        "types": "./dist/session.d.ts",
+        "default": "./dist/session.js"
+      },
+      "./webhooks": {
+        "types": "./dist/webhooks.d.ts",
+        "default": "./dist/webhooks.js"
+      },
+      "./blocks": {
+        "types": "./dist/blocks.d.ts",
+        "default": "./dist/blocks.js"
+      },
+      "./proxy": {
+        "types": "./dist/proxy.d.ts",
+        "default": "./dist/proxy.js"
+      },
+      "./actions": {
+        "types": "./dist/actions.d.ts",
+        "default": "./dist/actions.js"
+      },
+      "./rates": {
+        "types": "./dist/rates.d.ts",
+        "default": "./dist/rates.js"
+      },
+      "./hosted": {
+        "types": "./dist/hosted.d.ts",
+        "default": "./dist/hosted.js"
+      },
+      "./components": {
+        "types": "./dist/components.d.ts",
+        "default": "./dist/components.js"
+      },
+      "./bridge": {
+        "types": "./dist/bridge.d.ts",
+        "default": "./dist/bridge.js"
+      },
+      "./bridge/protocol": {
+        "types": "./dist/bridge/protocol.d.ts",
+        "default": "./dist/bridge/protocol.js"
+      },
+      "./router": {
+        "types": "./dist/router.d.ts",
+        "default": "./dist/router.js"
+      },
+      "./oauth": {
+        "types": "./dist/oauth.d.ts",
+        "default": "./dist/oauth.js"
+      },
+      "./app": {
+        "types": "./dist/app.d.ts",
+        "default": "./dist/app.js"
+      },
+      "./node": {
+        "types": "./dist/node.d.ts",
+        "default": "./dist/node.js"
+      },
+      "./testing": {
+        "types": "./dist/testing.d.ts",
+        "default": "./dist/testing.js"
+      },
+      "./manifest-schema": {
+        "types": "./dist/manifest-schema.d.ts",
+        "default": "./dist/manifest-schema.js"
+      },
+      "./schema/storeware.app.schema.json": "./schema/storeware.app.schema.json",
+      "./api": {
+        "types": "./dist/generated/index.d.ts",
+        "default": "./dist/generated/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts",
+    "test": "vitest run --passWithNoTests",
+    "schema:write": "WRITE_MANIFEST_SCHEMA=1 vitest run src/manifest-schema.test.ts && prettier --write schema/storeware.app.schema.json",
+    "build:dist": "node ../../scripts/build-package.mjs",
+    "prepack": "pnpm run build:dist",
+    "generate": "tsx scripts/generate-client.ts"
+  },
+  "dependencies": {
+    "smol-toml": "^1.7.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@storeware/config": "workspace:*",
+    "@types/node": "^22.20.1",
+    "eslint": "^9.18.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

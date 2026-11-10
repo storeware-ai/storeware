@@ -1,0 +1,10 @@
+{
+  "extends": "@storeware/config/tsconfig/library.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    // Runs in the browser, inside the frame the admin opens.
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

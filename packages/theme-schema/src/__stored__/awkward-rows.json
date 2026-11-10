@@ -1,0 +1,102 @@
+{
+  "a band this release cannot draw": null,
+  "a block of another band": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "multicolumn"
+  },
+  "a key this release does not know": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "settingFromTheFuture": "kept?",
+    "type": "intro"
+  },
+  "a link that is not safe": null,
+  "a number past its bound": null,
+  "a picture id that is not an id": null,
+  "a picture id zod 3 took and RFC 9562 does not": {
+    "align": "start",
+    "ctaHref": "/collections/seating",
+    "ctaLabel": "A heading",
+    "fit": true,
+    "heading": "A heading",
+    "id": "band01",
+    "image": "11111111-2222-3333-4444-555555555555",
+    "kicker": "A heading",
+    "scheme": "base",
+    "subheading": "A heading",
+    "type": "hero",
+    "video": "/collections/seating",
+    "width": "contained"
+  },
+  "a select value this release does not offer": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "type": "intro"
+  },
+  "an id in the wrong shape": null,
+  "more blocks than the band may hold": {
+    "blocks": [
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block00",
+        "type": "column"
+      },
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block01",
+        "type": "column"
+      },
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block02",
+        "type": "column"
+      },
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block03",
+        "type": "column"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "multicolumn"
+  },
+  "no id at all": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "intro"
+  },
+  "not an object": null,
+  "text with space around it": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "padded",
+    "scheme": "base",
+    "type": "intro"
+  }
+}

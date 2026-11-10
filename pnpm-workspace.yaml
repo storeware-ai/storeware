@@ -1,0 +1,11 @@
+packages:
+  - 'packages/*'
+
+# esbuild ships its platform binary from an install script.
+allowBuilds:
+  esbuild: true
+
+# One zod across the tree, as in the monorepo: two copies fail each other's
+# instanceof checks and each other's types.
+overrides:
+  zod: 4.6.5

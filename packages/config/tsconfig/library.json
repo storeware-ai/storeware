@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Storeware library",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    // ${configDir} resolves against the consuming package, not this file.
+    // Without it, relative paths in an extended config resolve relative to
+    // the config that declares them, which points at packages/config.
+    "outDir": "${configDir}/dist",
+    "rootDir": "${configDir}/src",
+    "noEmit": true,
+    "composite": false
+  },
+  "include": ["${configDir}/src/**/*.ts"],
+  "exclude": ["${configDir}/node_modules", "${configDir}/dist"]
+}

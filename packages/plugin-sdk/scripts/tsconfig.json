@@ -1,0 +1,14 @@
+{
+  // The generator and its drift test sit outside `src`, whose tsconfig roots
+  // every file there, so they are checked on their own:
+  // `tsc --noEmit -p scripts`.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    // Incremental state would land in scripts/dist; there is nothing to reuse.
+    "incremental": false,
+    "types": ["node"]
+  },
+  "include": ["./*.ts"],
+  "exclude": []
+}

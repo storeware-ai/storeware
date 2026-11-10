@@ -1,0 +1,58 @@
+{
+  "name": "@storeware/app-bridge-react",
+  "version": "1.0.0-beta.0",
+  "description": "React hooks for App Bridge: toasts, the title bar, the save bar, modals and pickers in the Storeware admin.",
+  "license": "MIT",
+  "homepage": "https://storeware.ai/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storeware-ai/storeware.git",
+    "directory": "packages/app-bridge-react"
+  },
+  "type": "module",
+  "main": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "build:dist": "node ../../scripts/build-package.mjs",
+    "prepack": "pnpm run build:dist"
+  },
+  "dependencies": {
+    "@storeware/plugin-sdk": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@storeware/config": "workspace:*",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.18.0",
+    "jsdom": "^30.0.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

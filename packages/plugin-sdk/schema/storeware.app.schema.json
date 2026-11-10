@@ -1,0 +1,871 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://storeware.ai/docs/schemas/storeware.app.json",
+  "title": "storeware.app.toml",
+  "description": "The manifest of a Storeware app: what it is, what it may reach, and where Storeware calls it.",
+  "type": "object",
+  "properties": {
+    "manifest_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2,
+      "description": "Which shape of manifest this is. Write 2."
+    },
+    "app": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{1,62}$",
+          "description": "Your client id. Lower case letters, digits and hyphens, 2 to 63 characters. It never changes."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "What merchants see on the consent screen and in their Apps list."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "A sentence or two for merchants."
+        },
+        "homepage_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your public site, shown to merchants."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your home inside the admin, opened full height with a session token. With it, merchants install from Storeware."
+        },
+        "navigation": {
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 30,
+                "description": "The link text, up to 30 characters."
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^\\/[A-Za-z0-9._~/-]*$",
+                "description": "A path inside your home, starting with /."
+              }
+            },
+            "required": ["label", "path"]
+          },
+          "description": "Up to five pages inside your home, listed under it in the admin."
+        },
+        "privacy_policy_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your privacy policy, shown to merchants."
+        },
+        "support_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where merchants get help, shown to merchants."
+        }
+      },
+      "required": ["slug", "name"],
+      "description": "Who the app is and where it lives."
+    },
+    "oauth": {
+      "type": "object",
+      "properties": {
+        "redirect_uris": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Where an install that starts on your own site returns to, matched exactly. Not needed when app.url is set."
+        },
+        "scopes": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z_]+:(read|write)$"
+          },
+          "description": "The permissions the app asks for. A merchant grants all of them or does not install."
+        }
+      },
+      "required": ["scopes"],
+      "description": "What the app may reach."
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Receives the compliance events. Needed when the app reads customer or order data."
+        }
+      },
+      "required": ["url"],
+      "description": "Where data requests and erasures are posted."
+    },
+    "billing": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["managed", "api"],
+          "description": "managed: Storeware shows your plans at install and on your app’s page. api: your app asks for each charge."
+        },
+        "plans": {
+          "default": [],
+          "maxItems": 6,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{1,31}$",
+                "description": "What your app asks for, in lower_snake_case."
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40,
+                "description": "What the merchant reads, up to 40 characters."
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "One line under the name."
+              },
+              "interval": {
+                "default": "month",
+                "type": "string",
+                "enum": ["month", "year"],
+                "description": "month or year. Charged in advance."
+              },
+              "prices": {
+                "type": "object",
+                "properties": {
+                  "usd": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000000,
+                    "description": "US dollars, in cents."
+                  },
+                  "gbp": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000000,
+                    "description": "Pounds sterling, in pence."
+                  },
+                  "eur": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000000,
+                    "description": "Euros, in cents."
+                  },
+                  "inr": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000000,
+                    "description": "Indian rupees, in paise."
+                  }
+                },
+                "required": ["usd", "gbp", "eur", "inr"],
+                "additionalProperties": false,
+                "description": "The price in all four currencies, in minor units, each set by hand. Leave it out for a free plan."
+              },
+              "trial_days": {
+                "default": 0,
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 90,
+                "description": "Days before the first charge, up to 90, once per shop."
+              },
+              "features": {
+                "default": [],
+                "maxItems": 8,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                },
+                "description": "Up to eight short lines shown with the plan."
+              },
+              "usage": {
+                "type": "object",
+                "properties": {
+                  "cap": {
+                    "type": "object",
+                    "properties": {
+                      "usd": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10000000,
+                        "description": "US dollars, in cents."
+                      },
+                      "gbp": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10000000,
+                        "description": "Pounds sterling, in pence."
+                      },
+                      "eur": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10000000,
+                        "description": "Euros, in cents."
+                      },
+                      "inr": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10000000,
+                        "description": "Indian rupees, in paise."
+                      }
+                    },
+                    "required": ["usd", "gbp", "eur", "inr"],
+                    "additionalProperties": false,
+                    "description": "The most one period can cost, in all four currencies."
+                  },
+                  "terms": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "What the merchant reads about the rate, such as 2 cents a label."
+                  }
+                },
+                "required": ["cap", "terms"],
+                "additionalProperties": false,
+                "description": "Charges by use on top of the plan, billed at the end of each period, never more than the cap. Needs billing.mode api."
+              }
+            },
+            "required": ["key", "name"],
+            "additionalProperties": false
+          },
+          "description": "Up to six plans."
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false,
+      "description": "What the app charges, collected by Storeware on the merchant’s bill."
+    },
+    "webhooks": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where events are posted. Redirects are never followed."
+        },
+        "events": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z_]+\\.[a-z_]+\\.v[0-9]+$"
+          },
+          "description": "Topics to receive. Each needs a scope that reads the same data."
+        }
+      },
+      "required": ["url", "events"],
+      "description": "Where events are posted, and which ones."
+    },
+    "extensions": {
+      "type": "object",
+      "properties": {
+        "admin": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "point": {
+                "type": "string",
+                "enum": [
+                  "admin.product.detail.sidebar",
+                  "admin.product.detail.action",
+                  "admin.product.index.action",
+                  "admin.collection.detail.sidebar",
+                  "admin.collection.detail.action",
+                  "admin.order.detail.sidebar",
+                  "admin.order.detail.action",
+                  "admin.orders.index.action",
+                  "admin.customer.detail.sidebar",
+                  "admin.customer.detail.action",
+                  "admin.customers.index.action",
+                  "admin.settings.block"
+                ],
+                "description": "Where in the admin it appears: a panel beside a record, an action in a record’s Apps menu, or an action on the rows ticked in a list."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "The page framed in the panel, or in the window an action opens."
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "description": "The panel’s heading, or the action’s name in the menu."
+              }
+            },
+            "required": ["point", "url", "title"]
+          },
+          "description": "Panels and actions your app adds to the admin."
+        },
+        "storefront": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "block": {
+                "type": "string",
+                "enum": [
+                  "storefront.product.below_description",
+                  "storefront.product.above_add_to_cart",
+                  "storefront.cart.summary",
+                  "storefront.collection.header"
+                ],
+                "description": "Where on the shop front the block appears."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Where Storeware asks for the block’s content."
+              },
+              "format": {
+                "default": "html",
+                "type": "string",
+                "enum": ["html", "components"],
+                "description": "html, sanitised to text, lists, tables and links, or components, drawn in the shop’s own style."
+              }
+            },
+            "required": ["block", "url"]
+          },
+          "description": "Blocks your app adds to the shop front."
+        },
+        "sections": {
+          "maxItems": 10,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "handle": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{1,31}$",
+                "description": "The section’s key, in lower_snake_case. It never changes."
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40,
+                "description": "What the merchant sees in the page editor, up to 40 characters."
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "One line about the section, shown in the page editor."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Where Storeware asks for the section’s content."
+              },
+              "format": {
+                "default": "components",
+                "type": "string",
+                "enum": ["html", "components"],
+                "description": "components (the default) or html."
+              }
+            },
+            "required": ["handle", "name", "url"],
+            "additionalProperties": false
+          },
+          "description": "Up to ten sections a merchant can place on any page from the page editor."
+        }
+      },
+      "description": "Panels in the admin and blocks on the shop front."
+    },
+    "settings": {
+      "maxItems": 30,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,63}$",
+            "description": "The field’s key, in lower_snake_case. Your app reads it by this."
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60,
+            "description": "What the merchant reads beside the box, up to 60 characters."
+          },
+          "help": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "One line under the box."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "single_line_text",
+              "multi_line_text",
+              "integer",
+              "decimal",
+              "boolean",
+              "url",
+              "color",
+              "select",
+              "secret"
+            ],
+            "description": "The kind of value. A secret is kept encrypted and shown to the merchant only as set."
+          },
+          "required": {
+            "default": false,
+            "type": "boolean",
+            "description": "Whether the merchant must fill it in before saving."
+          },
+          "default": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ],
+            "description": "The value before the merchant changes it. A secret has none."
+          },
+          "options": {
+            "minItems": 2,
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60,
+                  "description": "What your app reads."
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60,
+                  "description": "What the merchant reads."
+                }
+              },
+              "required": ["value", "label"],
+              "additionalProperties": false
+            },
+            "description": "For a select, the choices: from 2 to 30."
+          }
+        },
+        "required": ["key", "label", "type"],
+        "additionalProperties": false
+      },
+      "description": "Up to 30 fields a merchant fills in on your app’s page in their settings."
+    },
+    "app_proxy": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where Storeware forwards each request, signed and without the shopper’s cookies."
+        }
+      },
+      "required": ["url"],
+      "additionalProperties": false,
+      "description": "Pages under the shop’s own address, at /apps/your-slug/."
+    },
+    "automations": {
+      "type": "object",
+      "properties": {
+        "triggers": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z_]{1,31}$",
+                "description": "The trigger’s key, in lower_snake_case letters."
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "description": "What the merchant reads, such as A review was left."
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "One line about when it fires."
+              },
+              "fields": {
+                "default": [],
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{1,63}$",
+                      "description": "The value’s key, in lower_snake_case."
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 60,
+                      "description": "What the merchant reads."
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": ["text", "number", "boolean", "date", "url"],
+                      "description": "The kind of value."
+                    }
+                  },
+                  "required": ["key", "label", "type"],
+                  "additionalProperties": false
+                },
+                "description": "Up to 20 values the trigger carries, which a condition can test."
+              }
+            },
+            "required": ["key", "label"],
+            "additionalProperties": false
+          },
+          "description": "Up to 20 things that can start an automation, fired by your app."
+        },
+        "actions": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z_]{1,31}$",
+                "description": "The action’s key, in lower_snake_case letters."
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "description": "What the merchant reads, such as Send a text."
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "One line about what it does."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Where Storeware posts the step, signed, with an idempotency key."
+              },
+              "fields": {
+                "default": [],
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{1,63}$",
+                      "description": "The value’s key, in lower_snake_case."
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 60,
+                      "description": "What the merchant reads."
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": ["text", "multi_line_text", "number", "boolean", "url", "select"],
+                      "description": "The kind of value."
+                    },
+                    "required": {
+                      "default": false,
+                      "type": "boolean",
+                      "description": "Whether the step needs it."
+                    },
+                    "options": {
+                      "minItems": 2,
+                      "maxItems": 30,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 60,
+                            "description": "What your app receives."
+                          },
+                          "label": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 60,
+                            "description": "What the merchant reads."
+                          }
+                        },
+                        "required": ["value", "label"],
+                        "additionalProperties": false
+                      },
+                      "description": "For a select, the choices: from 2 to 30."
+                    }
+                  },
+                  "required": ["key", "label", "type"],
+                  "additionalProperties": false
+                },
+                "description": "Up to 20 values the merchant fills in for the step."
+              }
+            },
+            "required": ["key", "label", "url"],
+            "additionalProperties": false
+          },
+          "description": "Up to 20 steps a merchant can add to an automation."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Triggers and actions your app adds to the shop’s automations."
+    },
+    "checkout": {
+      "type": "object",
+      "properties": {
+        "delivery_rates": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Where Storeware asks for rates, with the basket and address. Needs checkout:read."
+            }
+          },
+          "required": ["url"],
+          "additionalProperties": false,
+          "description": "Delivery choices your app offers. If it fails or is slow, the shop’s own rates are shown."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Where your app takes part in checkout."
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "main": {
+          "default": "src/worker.ts",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "The file `storeware app deploy` bundles. Defaults to src/worker.ts."
+        },
+        "egress": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 253,
+            "pattern": "^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$"
+          },
+          "description": "Hosts your code may call besides Storeware’s API, such as api.example.com. Nothing else is reachable."
+        },
+        "bundle": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "The bundle’s SHA-256, written by `storeware app deploy`. Do not edit it."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Run your app on Storeware, free, at https://<slug>.storewareapps.com. In beta."
+    },
+    "knowledge": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where Storeware asks your app about a product."
+        },
+        "attributes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,63}$"
+          },
+          "description": "Attribute keys your app may set, in lower_snake_case."
+        },
+        "relations": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Relations your app may assert between two products."
+        },
+        "scopes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z_]+:(read|write)$"
+          },
+          "description": "Scopes these calls use."
+        }
+      },
+      "required": ["url"],
+      "description": "What your app knows about products, merged into search and every AI agent’s view of the catalogue."
+    },
+    "metafields": {
+      "type": "object",
+      "properties": {
+        "definitions": {
+          "minItems": 1,
+          "maxItems": 50,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "owner_type": {
+                "type": "string",
+                "enum": ["product", "variant", "collection", "customer", "order", "store"],
+                "description": "The kind of record the field belongs to."
+              },
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{1,63}$",
+                "description": "The field’s key, in lower_snake_case."
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "description": "What a merchant sees."
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 2000,
+                "description": "A longer note for the merchant."
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "single_line_text",
+                  "multi_line_text",
+                  "integer",
+                  "decimal",
+                  "boolean",
+                  "date",
+                  "url"
+                ],
+                "description": "The kind of value the field holds."
+              },
+              "is_list": {
+                "default": false,
+                "type": "boolean",
+                "description": "Whether the field holds a list of values."
+              },
+              "storefront_visible": {
+                "default": false,
+                "type": "boolean",
+                "description": "Whether shoppers see it. Never allowed for customer or order fields."
+              }
+            },
+            "required": ["owner_type", "key", "name", "type"]
+          },
+          "description": "Up to 50 fields."
+        },
+        "scopes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z_]+:(read|write)$"
+          },
+          "description": "Scopes these writes use."
+        }
+      },
+      "required": ["definitions"],
+      "description": "Typed fields your app keeps on a merchant’s records."
+    },
+    "mcp": {
+      "type": "object",
+      "properties": {
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,63}$",
+                "description": "The tool’s name, in lower_snake_case."
+              },
+              "description": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 500,
+                "description": "What the tool does, for the model choosing it."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Where Storeware calls the tool."
+              },
+              "scopes": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z_]+:(read|write)$"
+                },
+                "description": "Scopes the tool uses."
+              },
+              "input_schema": {
+                "default": {
+                  "type": "object",
+                  "additionalProperties": false
+                },
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {},
+                "description": "The tool’s arguments, as JSON Schema."
+              }
+            },
+            "required": ["name", "description", "url"]
+          },
+          "description": "The tools."
+        }
+      },
+      "description": "Tools your app adds to every assistant on a shop."
+    }
+  },
+  "required": ["app", "oauth"],
+  "additionalProperties": false
+}

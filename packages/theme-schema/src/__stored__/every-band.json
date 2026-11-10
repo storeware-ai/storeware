@@ -1,0 +1,622 @@
+{
+  "app_block": {
+    "app": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "section": "A heading",
+    "type": "app_block"
+  },
+  "article_body": {
+    "id": "band01",
+    "type": "article_body"
+  },
+  "article_list": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "type": "article_list"
+  },
+  "article_meta": {
+    "id": "band01",
+    "showAuthor": true,
+    "showReadingTime": true,
+    "type": "article_meta"
+  },
+  "article_related": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "type": "article_related"
+  },
+  "article_share": {
+    "heading": "A heading",
+    "id": "band01",
+    "type": "article_share"
+  },
+  "article_toc": {
+    "heading": "A heading",
+    "id": "band01",
+    "type": "article_toc"
+  },
+  "assistant": {
+    "heading": "A heading",
+    "id": "band01",
+    "type": "assistant"
+  },
+  "author_bio": {
+    "id": "band01",
+    "type": "author_bio"
+  },
+  "banner": {
+    "background": "#1a2b3c",
+    "body": "A heading",
+    "foreground": "#1a2b3c",
+    "href": "/collections/seating",
+    "id": "band01",
+    "kicker": "A heading",
+    "type": "banner"
+  },
+  "blog_posts": {
+    "blog": "oak-chair",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "type": "blog_posts"
+  },
+  "collage": {
+    "blocks": [
+      {
+        "alt": "A heading",
+        "caption": "A heading",
+        "href": "/collections/seating",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "shape": "plain",
+        "type": "picture"
+      },
+      {
+        "alt": "A heading",
+        "caption": "A heading",
+        "href": "/collections/seating",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "shape": "plain",
+        "type": "picture"
+      }
+    ],
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "collage"
+  },
+  "collection_columns": {
+    "first": "oak-chair",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "second": "oak-chair",
+    "third": "oak-chair",
+    "type": "collection_columns"
+  },
+  "collection_header": {
+    "id": "band01",
+    "type": "collection_header"
+  },
+  "collection_list": {
+    "first": "oak-chair",
+    "fourth": "oak-chair",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "second": "oak-chair",
+    "third": "oak-chair",
+    "type": "collection_list"
+  },
+  "collection_products": {
+    "feature": "22222222-2222-4222-8222-222222222222",
+    "featureHref": "/collections/seating",
+    "featureLine": "A heading",
+    "filters": true,
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 4,
+    "scheme": "base",
+    "type": "collection_products"
+  },
+  "collection_tabs": {
+    "first": "oak-chair",
+    "fourth": "oak-chair",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "scheme": "base",
+    "second": "oak-chair",
+    "third": "oak-chair",
+    "type": "collection_tabs"
+  },
+  "collections": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "scheme": "base",
+    "type": "collections"
+  },
+  "comparison": {
+    "blocks": [
+      {
+        "id": "block01",
+        "label": "A heading",
+        "ours": "A heading",
+        "theirs": "A heading",
+        "type": "row"
+      },
+      {
+        "id": "block02",
+        "label": "A heading",
+        "ours": "A heading",
+        "theirs": "A heading",
+        "type": "row"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "ours": "A heading",
+    "theirs": "A heading",
+    "type": "comparison"
+  },
+  "contact_form": {
+    "askSubject": true,
+    "body": "<p>Body copy</p>",
+    "buttonLabel": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "type": "contact_form"
+  },
+  "countdown": {
+    "body": "<p>Body copy</p>",
+    "endsAt": "A heading",
+    "expiredBody": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "type": "countdown"
+  },
+  "cta_bar": {
+    "body": "<p>Body copy</p>",
+    "buttonLabel": "A heading",
+    "heading": "A heading",
+    "href": "/collections/seating",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "sticky": true,
+    "type": "cta_bar"
+  },
+  "divider": {
+    "id": "band01",
+    "type": "divider"
+  },
+  "faq": {
+    "blocks": [
+      {
+        "answer": "<p>Body copy</p>",
+        "id": "block01",
+        "question": "A heading",
+        "type": "question"
+      },
+      {
+        "answer": "<p>Body copy</p>",
+        "id": "block02",
+        "question": "A heading",
+        "type": "question"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "faq"
+  },
+  "featured_collection": {
+    "collection": "oak-chair",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "type": "featured_collection"
+  },
+  "featured_product": {
+    "body": "<p>Body copy</p>",
+    "buyHere": true,
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "product": "oak-chair",
+    "type": "featured_product"
+  },
+  "figures": {
+    "blocks": [
+      {
+        "id": "block01",
+        "label": "A heading",
+        "type": "figure",
+        "value": "A heading"
+      },
+      {
+        "id": "block02",
+        "label": "A heading",
+        "type": "figure",
+        "value": "A heading"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "type": "figures"
+  },
+  "gallery": {
+    "blocks": [
+      {
+        "alt": "A heading",
+        "href": "/collections/seating",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "image"
+      },
+      {
+        "alt": "A heading",
+        "href": "/collections/seating",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "image"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "shape": "plain",
+    "type": "gallery"
+  },
+  "hero": {
+    "align": "start",
+    "ctaHref": "/collections/seating",
+    "ctaLabel": "A heading",
+    "fit": true,
+    "heading": "A heading",
+    "id": "band01",
+    "image": "22222222-2222-4222-8222-222222222222",
+    "kicker": "A heading",
+    "scheme": "base",
+    "subheading": "A heading",
+    "type": "hero",
+    "video": "/collections/seating",
+    "width": "contained"
+  },
+  "image_with_text": {
+    "body": "<p>Body copy</p>",
+    "ctaHref": "/collections/seating",
+    "ctaLabel": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "image": "22222222-2222-4222-8222-222222222222",
+    "imageSide": "start",
+    "kicker": "A heading",
+    "scheme": "base",
+    "shape": "plain",
+    "type": "image_with_text"
+  },
+  "intro": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "intro"
+  },
+  "logo_list": {
+    "blocks": [
+      {
+        "alt": "A heading",
+        "href": "/collections/seating",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "logo"
+      },
+      {
+        "alt": "A heading",
+        "href": "/collections/seating",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "logo"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "type": "logo_list"
+  },
+  "lookbook": {
+    "blocks": [
+      {
+        "id": "block01",
+        "product": "oak-chair",
+        "type": "spot",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "block02",
+        "product": "oak-chair",
+        "type": "spot",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "image": "22222222-2222-4222-8222-222222222222",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "lookbook"
+  },
+  "manifesto": {
+    "align": "start",
+    "body": "<p>Body copy</p>",
+    "fit": true,
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "manifesto"
+  },
+  "marquee": {
+    "blocks": [
+      {
+        "id": "block01",
+        "text": "A heading",
+        "type": "phrase"
+      },
+      {
+        "id": "block02",
+        "text": "A heading",
+        "type": "phrase"
+      }
+    ],
+    "id": "band01",
+    "scheme": "base",
+    "speed": "slow",
+    "type": "marquee"
+  },
+  "multicolumn": {
+    "blocks": [
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block01",
+        "type": "column"
+      },
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "icon": "22222222-2222-4222-8222-222222222222",
+        "id": "block02",
+        "type": "column"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "multicolumn"
+  },
+  "newsletter_signup": {
+    "body": "<p>Body copy</p>",
+    "buttonLabel": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "type": "newsletter_signup"
+  },
+  "note": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "note"
+  },
+  "page_body": {
+    "id": "band01",
+    "type": "page_body"
+  },
+  "plugin_block": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "plugin": "A heading",
+    "type": "plugin_block"
+  },
+  "policy_badges": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "showContact": true,
+    "showReturns": true,
+    "showShipping": true,
+    "type": "policy_badges"
+  },
+  "process_steps": {
+    "blocks": [
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "step"
+      },
+      {
+        "body": "<p>Body copy</p>",
+        "heading": "A heading",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "step"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "process_steps"
+  },
+  "products": {
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "scheme": "base",
+    "type": "products"
+  },
+  "promo_pair": {
+    "blocks": [
+      {
+        "body": "A heading",
+        "ctaLabel": "A heading",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "kicker": "A heading",
+        "type": "tile"
+      },
+      {
+        "body": "A heading",
+        "ctaLabel": "A heading",
+        "heading": "A heading",
+        "href": "/collections/seating",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "kicker": "A heading",
+        "type": "tile"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "promo_pair"
+  },
+  "recently_viewed": {
+    "heading": "A heading",
+    "id": "band01",
+    "limit": 1,
+    "type": "recently_viewed"
+  },
+  "related_products": {
+    "heading": "A heading",
+    "id": "band01",
+    "limit": 1,
+    "type": "related_products"
+  },
+  "reviews": {
+    "heading": "A heading",
+    "id": "band01",
+    "limit": 1,
+    "showForm": true,
+    "type": "reviews"
+  },
+  "rich_text": {
+    "align": "start",
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "rich_text"
+  },
+  "spacer": {
+    "id": "band01",
+    "size": 1,
+    "type": "spacer"
+  },
+  "split_screen": {
+    "blocks": [
+      {
+        "alt": "A heading",
+        "caption": "A heading",
+        "id": "block01",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "picture"
+      },
+      {
+        "alt": "A heading",
+        "caption": "A heading",
+        "id": "block02",
+        "image": "22222222-2222-4222-8222-222222222222",
+        "type": "picture"
+      }
+    ],
+    "body": "<p>Body copy</p>",
+    "ctaHref": "/collections/seating",
+    "ctaLabel": "A heading",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "side": "start",
+    "type": "split_screen"
+  },
+  "styled_with": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "limit": 1,
+    "type": "styled_with"
+  },
+  "testimonials": {
+    "blocks": [
+      {
+        "attribution": "A heading",
+        "id": "block01",
+        "quote": "A heading",
+        "type": "testimonial"
+      },
+      {
+        "attribution": "A heading",
+        "id": "block02",
+        "quote": "A heading",
+        "type": "testimonial"
+      }
+    ],
+    "heading": "A heading",
+    "id": "band01",
+    "kicker": "A heading",
+    "scheme": "base",
+    "type": "testimonials"
+  },
+  "video": {
+    "body": "<p>Body copy</p>",
+    "heading": "A heading",
+    "href": "/collections/seating",
+    "id": "band01",
+    "kicker": "A heading",
+    "poster": "22222222-2222-4222-8222-222222222222",
+    "type": "video"
+  }
+}

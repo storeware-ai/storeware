@@ -1,0 +1,55 @@
+{
+  "name": "@storeware/cli",
+  "version": "1.0.0-beta.0",
+  "description": "Scaffold, run, check and ship Storeware apps.",
+  "license": "MIT",
+  "homepage": "https://storeware.ai/docs/cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storeware-ai/storeware.git",
+    "directory": "packages/cli"
+  },
+  "type": "module",
+  "bin": {
+    "storeware": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "dist",
+    "templates",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "bin": {
+      "storeware": "./dist/index.js"
+    },
+    "main": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests --exclude '**/*.integration.test.ts'",
+    "storeware": "tsx src/index.ts",
+    "build:dist": "node ../../scripts/build-package.mjs --bin",
+    "prepack": "pnpm run build:dist"
+  },
+  "dependencies": {
+    "esbuild": "0.28.2"
+  },
+  "devDependencies": {
+    "@storeware/plugin-sdk": "workspace:*",
+    "@storeware/theme-schema": "workspace:*",
+    "@storeware/config": "workspace:*",
+    "@types/node": "^22.20.1",
+    "eslint": "^9.18.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
